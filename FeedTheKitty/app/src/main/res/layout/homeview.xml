@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Browse Events"
+        android:id="@+id/browse_btn"
+        android:layout_marginTop="130dp"
+        android:background="#FFB347"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Event"
+        android:id="@+id/create_btn"
+        android:layout_below="@+id/browse_btn"
+        android:layout_marginTop="102dp"
+        android:layout_alignEnd="@+id/browse_btn"
+        android:layout_alignStart="@+id/browse_btn"
+        android:background="#FFB347" />
+</RelativeLayout>
