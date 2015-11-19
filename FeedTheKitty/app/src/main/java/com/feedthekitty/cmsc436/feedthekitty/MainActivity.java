@@ -9,13 +9,22 @@ import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
 
+import com.firebase.client.Firebase;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
+    Firebase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Firebase.setAndroidContext(this);
+        database = new Firebase(firebaseUrl);
+
     }
 
     @Override
