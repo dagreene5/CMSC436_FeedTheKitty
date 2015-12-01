@@ -66,8 +66,9 @@ public class FirebaseTestActivity extends ListActivity {
         fetchButton = (Button) findViewById(R.id.fetchButton);
         textBox = (EditText)  findViewById(R.id.textBox);
 
-        Drawable stockDrawable = getResources().getDrawable(R.drawable.stock_image);
-        stockImage = ((BitmapDrawable) stockDrawable).getBitmap();
+        // image removed
+        //Drawable stockDrawable = getResources().getDrawable(R.drawable.stock_image);
+        //stockImage = ((BitmapDrawable) stockDrawable).getBitmap();
 
 
 
@@ -83,11 +84,11 @@ public class FirebaseTestActivity extends ListActivity {
 
 
                 EventData data = new EventData();
-                data.setEventImage(stockImage);
+                //data.setEventImage(stockImage);
                 data.setEventText(text);
 
                 database.child("eventData").child("eventText").setValue(data.getEventText());//.setValue(data);
-                database.child("eventData").child("eventImage").setValue(data.getEventImage());
+               // database.child("eventData").child("eventImage").setValue(data.getEventImage());
                 Log.i(TAG, "Successfully wrote to firebase");
             }
         });
@@ -101,13 +102,13 @@ public class FirebaseTestActivity extends ListActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         String eventText = (String) dataSnapshot.child("eventText").getValue();
-                        String imageText = (String) dataSnapshot.child("eventImage").getValue();
+                        //String imageText = (String) dataSnapshot.child("eventImage").getValue();
                         Log.i(TAG, "Successfully read from firebase");
 
-                        Log.i(TAG, "Read text: " + eventText + ", " + imageText);
+                        Log.i(TAG, "Read text: " + eventText);
                         EventData data = new EventData();
                         data.setEventText(eventText);
-                        data.setEventImage(imageText);
+                        //data.setEventImage(imageText);
                         listItems.add(data);
                         adapter.notifyDataSetChanged();
                     }
@@ -160,12 +161,12 @@ public class FirebaseTestActivity extends ListActivity {
             }
 
             TextView text = (TextView) vi.findViewById(R.id.textView);
-            ImageView image = (ImageView) vi.findViewById(R.id.imageView);
+           // ImageView image = (ImageView) vi.findViewById(R.id.imageView);
 
             EventData data = (EventData) getItem(position);
 
             text.setText(data.getEventText());
-            image.setImageBitmap(data.getEventImageBitmap());
+            //image.setImageBitmap(data.getEventImageBitmap());
 
             return vi;
         }
