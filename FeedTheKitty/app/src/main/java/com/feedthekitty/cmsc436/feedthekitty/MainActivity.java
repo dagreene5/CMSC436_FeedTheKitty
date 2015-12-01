@@ -1,7 +1,10 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
+import android.content.Intent;
+import android.hardware.camera2.params.Face;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.SearchManager;
@@ -14,7 +17,11 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String firebaseURLKey = "f";
     private String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
+    public boolean loggedIn = false;
+    public static final Integer REQUEST_LOGIN = 5;
+    public static final String TAG = "MainActivity";
     Firebase database;
 
     @Override
@@ -22,9 +29,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Firebase.setAndroidContext(this);
-        database = new Firebase(firebaseUrl);
+        //Firebase.setAndroidContext(this);
+        //database = new Firebase(firebaseUrl);
 
+        // Test Firebase
+        /*Intent intent = new Intent(this, FirebaseTestActivity.class);
+        intent.putExtra(firebaseURLKey, firebaseUrl);
+        startActivity(intent);
+        */
+
+        // Test Facebook Login
+        /*Intent intent = new Intent(this, FacebookLogin.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
+        */
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_LOGIN) {
+
+            if (resultCode == RESULT_OK) {
+
+                Log.i(TAG, "AUTH_ID passed back to main activity: " +
+                        data.getExtras().getString(FacebookLogin.AUTH_ID));
+            }
+        }
     }
 
     @Override
