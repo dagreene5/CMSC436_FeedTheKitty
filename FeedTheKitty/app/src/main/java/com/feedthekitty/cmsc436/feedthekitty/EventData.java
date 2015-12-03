@@ -13,10 +13,20 @@ import java.io.ByteArrayOutputStream;
  */
 public class EventData {
 
+    private String TAG = "EventData";
     private String eventImage;
     private String eventText;
-    private String TAG = "EventData";
+    private String title;
+    private String hashtag;
+    private Long stackId;
+    private Integer money;
 
+    public void setStackId(long stackId) {
+        this.stackId = stackId;
+    }
+    public long getStackId() {
+        return stackId;
+    }
     public void setEventImage(String eventImage) {
         this.eventImage = eventImage;
     }
@@ -25,29 +35,23 @@ public class EventData {
         return eventImage;
     }
 
-    public void setEventText(String eventText) {
-        this.eventText = eventText;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getEventText() {
-        return eventText;
+    public String getTitle() {
+        return title;
     }
 
-    public void setEventImage(Bitmap image) {
-
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            image.recycle();
-            byte[] byteArray = baos.toByteArray();
-            eventImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        } catch (Exception e) {
-            Log.e(TAG, "Event data unable to convert image format");
-        }
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
     }
 
-    public Bitmap getEventImageBitmap() {
-        byte[] byteArray = Base64.decode(eventImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    public String getHashtag() {
+        return hashtag;
+    }
+
+    public String toString() {
+        return "Event title: " + title + ", hashtag: " + hashtag;
     }
 }

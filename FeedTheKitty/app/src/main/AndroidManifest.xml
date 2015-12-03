@@ -36,8 +36,12 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".FirebaseTestActivity"
-            android:label="FirebaseTest">
+            android:name=".TestCreateEventActivity"
+            android:label="testCreateEventActivity">
+        </activity>
+        <activity
+            android:name=".EventSearchActivity"
+            android:label="eventSearchActivity">
         </activity>
     </application>
 

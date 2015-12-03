@@ -11,6 +11,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.client.Firebase;
 
@@ -18,10 +20,12 @@ import com.firebase.client.Firebase;
 public class MainActivity extends AppCompatActivity {
 
     public static String firebaseURLKey = "f";
-    private String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
+    public static String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
     public boolean loggedIn = false;
     public static final Integer REQUEST_LOGIN = 5;
     public static final String TAG = "MainActivity";
+    Button eventSearchButton;
+    Button addTestEventButton;
     Firebase database;
 
     @Override
@@ -29,19 +33,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Firebase.setAndroidContext(this);
-        //database = new Firebase(firebaseUrl);
+        Firebase.setAndroidContext(this);
 
-        // Test Firebase
-        /*Intent intent = new Intent(this, FirebaseTestActivity.class);
-        intent.putExtra(firebaseURLKey, firebaseUrl);
-        startActivity(intent);
-        */
+        eventSearchButton = (Button) findViewById(R.id.button_search_all_events);
+        addTestEventButton = (Button) findViewById(R.id.button_add_test_events);
 
+        addTestEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TestCreateEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        eventSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EventSearchActivity.class);
+                startActivity(intent);
+            }
+        });
         // Test Facebook Login
         /*Intent intent = new Intent(this, FacebookLogin.class);
         startActivityForResult(intent, REQUEST_LOGIN);
         */
+
+        // Test Storing data
+        /*
+        Intent intent = new Intent(this, TestCreateEventActivity.class);
+        startActivity(intent);
+        */
+
+        // Test Searching for list of events
+        /*
+        Intent intent = new Intent(this, EventSearchActivity.class);
+        startActivity(intent);
+         */
 
 
     }
