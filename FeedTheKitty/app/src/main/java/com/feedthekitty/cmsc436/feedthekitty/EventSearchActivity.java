@@ -1,24 +1,14 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
-
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 

@@ -43,11 +43,11 @@ public class TestCreateEventActivity extends Activity {
                     return;
                 }
 
-                HashMap<String, String> newEvent = new HashMap<String, String>();
-                newEvent.put("title", titleText);
-                newEvent.put("hashtag", hashtagText);
+                EventData eventData = new EventData();
+                eventData.setTitle(titleText);
+                eventData.setTitle(hashtagText);
 
-                firebaseUtils.storeEventMasterList(newEvent);
+                firebaseUtils.createEventMasterList(eventData);
             }
         });
     }
