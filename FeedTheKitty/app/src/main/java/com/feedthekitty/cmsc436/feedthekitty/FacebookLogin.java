@@ -38,7 +38,7 @@ public class FacebookLogin extends Activity {
         setContentView(R.layout.activity_facebook_login);
 
         username = (TextView) findViewById(R.id.username);
-        loginButton = (LoginButton) findViewById(R.id.fb_login_button);
+        loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("email", "user_friends"));
 
         FacebookSdk.sdkInitialize(getApplicationContext());

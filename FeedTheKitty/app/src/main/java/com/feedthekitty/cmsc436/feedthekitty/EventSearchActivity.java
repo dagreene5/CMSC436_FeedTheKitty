@@ -47,9 +47,6 @@ public class EventSearchActivity extends ListActivity {
         setContentView(R.layout.activity_event_search);
         database = new Firebase(MainActivity.firebaseUrl);
 
-        ActionBar bar = getActionBar();
-        bar.show();
-
         // View initialization
         searchButton = (Button) findViewById(R.id.button_search);
         showAllButton = (Button) findViewById(R.id.button_show_all);
