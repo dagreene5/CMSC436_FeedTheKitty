@@ -12,9 +12,12 @@ import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.Query;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean loggedIn = false;
     public static final Integer REQUEST_LOGIN = 5;
     public static final String TAG = "MainActivity";
-    Button eventSearchButton;
-    Button addTestEventButton;
+    Button eventSearchButton, addTestEventButton, browseBtn, createBtn;
     Firebase database;
+    public ListView userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,46 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        //If logged in via FB
+        setContentView(R.layout.homeview);
+
+        browseBtn = (Button) findViewById(R.id.browse_btn);
+        createBtn = (Button) findViewById(R.id.create_btn);
+
+        browseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent intent = new Intent(MainActivity.this, browse.class);
+               // startActivity(intent);
+            }
+        });
+
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent intent = new Intent(MainActivity.this, create.class);
+               // startActivity(intent);
+            }
+        });
+
+        String[] itemname ={
+                "Safari",
+                "Camera",
+                "Global",
+                "FireFox",
+                "UC Browser",
+                "Android Folder",
+                "VLC Player",
+                "Cold War"
+        };
+        database = new Firebase(MainActivity.firebaseUrl);
+        Query query = database.child("masterList");
+        EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
+        userList = (ListView) findViewById(R.id.list);
+        userList.setAdapter(adapter);
+
         // Test Facebook Login
         /*Intent intent = new Intent(this, FacebookLogin.class);
         startActivityForResult(intent, REQUEST_LOGIN);
@@ -69,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EventSearchActivity.class);
         startActivity(intent);
          */
-
-
     }
 
     @Override
@@ -111,7 +152,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
             return true;
         }
 
