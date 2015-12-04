@@ -10,16 +10,14 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SearchResultActivity"
             android:label="@string/app_name"
@@ -42,6 +40,13 @@
         <activity
             android:name=".EventSearchActivity"
             android:label="eventSearchActivity">
+        </activity>
+        <activity android:name=".CreateEventActivity"
+            android:label="New Event">
+        </activity>
+        <activity
+            android:name=".FacebookActivity"
+            android:label="facebookactivity">
         </activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

@@ -17,6 +17,13 @@ public class EventData {
     private String eventImage;
     private String title;
     private String hashtag;
+    private String location;
+    //TODO
+    private Boolean isPrivate;
+    private String eventStartTime;
+    private String eventEndTime;
+    private String eventStartDate;
+    private String eventEndDate;
     private Long stackId;
     private Integer funds;
     private String description;
@@ -26,48 +33,101 @@ public class EventData {
     public void setStackId(long stackId) {
         this.stackId = stackId;
     }
+
     public long getStackId() {
         return stackId;
     }
+
     public void setEventImage(String eventImage) {
         this.eventImage = eventImage;
     }
+
     public String getEventImage() {
         return eventImage;
     }
+
+    public void setEventStartTime(String eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
+
+    public String getEventStartTime() {
+        return eventStartTime;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setEventStartDate(String eventStartDate) {
+        this.eventStartDate = eventStartDate;
+    }
+
+    public String getEventStartDate() {
+        return eventStartDate;
+    }
+
+    public void setEventEndDate(String eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+
+    public String getEventEndDate() {
+        return eventEndDate;
+    }
+
+    public void setEventEndTime(String eventEndTime) {
+        this.eventEndTime = eventEndTime;    }
+
+    public String getEventEndTime() {
+        return eventEndTime;
     }
     public void setHashtag(String hashtag) {
         this.hashtag = hashtag;
     }
+
     public String getHashtag() {
         return hashtag;
     }
+
     public void setFunds(Integer funds) {
         this.funds = funds;
     }
+
     public Integer getFunds() {
         return funds;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setPeopleInvited(List<String> peopleInvited) {
         this.peopleInvited = peopleInvited;
     }
+
     public List<String> getPeopleInvited() {
         return peopleInvited;
     }
+
     public void setPeopleAttending(List<String> peopleAttending) {
         this.peopleAttending = peopleAttending;
     }
+
     public List<String> getPeopleAttending() {
         return peopleAttending;
     }

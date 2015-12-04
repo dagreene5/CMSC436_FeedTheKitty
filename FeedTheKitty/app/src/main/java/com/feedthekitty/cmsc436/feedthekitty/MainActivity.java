@@ -1,7 +1,6 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
 import android.content.Intent;
-import android.hardware.camera2.params.Face;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +12,16 @@ import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.facebook.*;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import com.firebase.client.Firebase;
+
+import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
 
+        Intent intent = new Intent(this, FacebookActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
+
         eventSearchButton = (Button) findViewById(R.id.button_search_all_events);
         addTestEventButton = (Button) findViewById(R.id.button_add_test_events);
 
@@ -53,10 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // Test Facebook Login
-        /*Intent intent = new Intent(this, FacebookLogin.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
-        */
+
 
         // Test Storing data
         /*
@@ -81,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 Log.i(TAG, "AUTH_ID passed back to main activity: " +
-                        data.getExtras().getString(FacebookLogin.AUTH_ID));
+                        data.getExtras().getString(FacebookActivity.AUTH_ID));
             }
         }
     }

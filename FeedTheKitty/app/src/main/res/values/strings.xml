@@ -3,5 +3,13 @@
 
     <string name="menu_search">Search Hashtag</string>
     <string name="action_settings">Settings</string>
+
     <string name="facebook_app_id">926948180721101</string>
+    <string name="event_name"></string>
+    <string name="location"></string>
+    <string name="event_date_and_time"></string>
+    <string name="set_privacy"></string>
+    <string name="Description"></string>
+    <string name="event_post_deadline_date"></string>
+    <string name="event_create_hashtags"></string>
 </resources>
