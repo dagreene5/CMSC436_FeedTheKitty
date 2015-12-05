@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text was not set"
+        android:text="text_money_raised was not set"
         android:id="@+id/text_money_raised"
         android:gravity="center_vertical"/>
 

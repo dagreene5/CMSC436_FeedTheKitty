@@ -43,7 +43,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     SimpleDateFormat simpleDateFormat;
     DateFormat simpleTimeFormat;
 
-    Intent data;
+    Intent data = new Intent();
     Calendar calendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,17 +137,17 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         if (view == getEventDate) {
             eventDate.show();
-            data.putExtra("eventStartDate", getEventDate.getText());
+            //data.putExtra("eventStartDate", getEventDate.getText());
         } else if (view == getEventEndDate) {
             eventEndDate.show();
-            data.putExtra("eventEndDate", getEventEndDate.getText());
+            //data.putExtra("eventEndDate", getEventEndDate.getText());
         } else if (view == getEventTime) {
             eventTime.show();
-            data.putExtra("eventStartTime", getEventTime.getText());
+            //data.putExtra("eventStartTime", getEventTime.getText());
         } else if (view == getEventEndTime) {
             eventEndTime.show();
-            data.putExtra("eventEndTime", getEventEndTime.getText());
-        } else if (view == eventName) {
+            //data.putExtra("eventEndTime", getEventEndTime.getText());
+        /*} else if (view == eventName) {
             data.putExtra("eventName", eventName.getText());
         } else if (view == location) {
             data.putExtra("location", location.getText());
@@ -156,10 +156,18 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         } else if (view == description) {
             data.putExtra("description", description.getText());
         } else if (view == hashTag) {
-            data.putExtra("hashtag", hashTag.getText());
+            data.putExtra("hashtag", hashTag.getText());*/
         } else if (view == createEvent) {
             this.setResult(RESULT_OK, data);
-            //finish activity
+            data.putExtra("eventStartDate", getEventDate.getText().toString());
+            data.putExtra("eventEndDate", getEventEndDate.getText().toString());
+            data.putExtra("eventStartTime", getEventTime.getText().toString());
+            data.putExtra("eventEndTime", getEventEndTime.getText().toString());
+            data.putExtra("location", location.getText().toString());
+            data.putExtra("isPrivate", isPrivate.isChecked());
+            data.putExtra("description", description.getText().toString());
+            data.putExtra("hashtag", hashTag.getText().toString());
+            // /finish activity
             finish();
         }
 
