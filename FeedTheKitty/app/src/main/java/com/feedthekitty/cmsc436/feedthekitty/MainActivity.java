@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //If logged in via FB
+        /*
         setContentView(R.layout.homeview);
 
         browseBtn = (Button) findViewById(R.id.browse_btn);
@@ -83,21 +84,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String[] itemname ={
-                "Safari",
-                "Camera",
-                "Global",
-                "FireFox",
-                "UC Browser",
-                "Android Folder",
-                "VLC Player",
-                "Cold War"
-        };
         database = new Firebase(MainActivity.firebaseUrl);
-        Query query = database.child("masterList");
+        Query query = database.child("masterList"); //change this to userList later
         EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
         userList = (ListView) findViewById(R.id.list);
         userList.setAdapter(adapter);
+        */
 
         // Test Facebook Login
         /*Intent intent = new Intent(this, FacebookLogin.class);
