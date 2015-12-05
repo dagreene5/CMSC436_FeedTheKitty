@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Firebase.setAndroidContext(this);
-
+        
         //If logged in via FB
 
         setContentView(R.layout.homeview);
