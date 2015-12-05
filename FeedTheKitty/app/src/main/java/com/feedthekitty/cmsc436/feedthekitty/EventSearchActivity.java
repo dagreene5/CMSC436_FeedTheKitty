@@ -1,9 +1,11 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -12,9 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.firebase.client.Firebase;
@@ -39,6 +43,8 @@ public class EventSearchActivity extends ListActivity {
     EventListAdapter adapter = null;
     Firebase database;
 
+    ListView listView;
+
     String TAG = "EventSearchActivity";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,21 @@ public class EventSearchActivity extends ListActivity {
 
         setContentView(R.layout.activity_event_search);
         database = new Firebase(MainActivity.firebaseUrl);
+
+        listView = getListView();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final EventData data = (EventData) adapter.getItem(position);
+
+                if (data != null) {
+                    Intent intent = data.packageIntoIntent();
+                    intent.setClass(EventSearchActivity.this, EventLayout.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         // View initialization
         searchButton = (Button) findViewById(R.id.button_search);
@@ -79,7 +100,7 @@ public class EventSearchActivity extends ListActivity {
                     adapter.close();
                 }
 
-                Query query = database.child("masterList");
+                Query query = database.child(FirebaseUtils.eventRoot);
                 adapter = new EventListAdapter(query, R.layout.event_search_row,
                         EventSearchActivity.this, null, null);
 
@@ -104,18 +125,16 @@ public class EventSearchActivity extends ListActivity {
                     return; // TODO clear list on empty search?
                 }
 
-                //TODO only allow one to be checked at a time
-
                 if (checkHashtag) {
                     Log.d(TAG, "Searching for hashtag: " + text);
-                    Query query = database.child("masterList");
+                    Query query = database.child(FirebaseUtils.eventRoot);
                     adapter = new EventListAdapter(query, R.layout.event_search_row,
                             EventSearchActivity.this, text, EventListAdapter.HASHTAG_SEARCH);
 
                 } else if (checkTitle) {
                     Log.d(TAG, "Searching for title: " + text);
 
-                    Query query = database.child("masterList");
+                    Query query = database.child(FirebaseUtils.eventRoot);
                     adapter = new EventListAdapter(query, R.layout.event_search_row,
                             EventSearchActivity.this, text, EventListAdapter.TITLE_SEARCH);
                 }
@@ -142,6 +161,7 @@ public class EventSearchActivity extends ListActivity {
         return true;
     }
 
+    //TODO this might cause issues
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

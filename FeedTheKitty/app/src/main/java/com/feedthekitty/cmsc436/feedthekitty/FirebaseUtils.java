@@ -1,5 +1,7 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
+import android.graphics.Bitmap;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -14,8 +16,10 @@ import java.util.HashMap;
 public class FirebaseUtils {
 
     private Firebase database = new Firebase(MainActivity.firebaseUrl);
-    public Firebase masterList = database.child("masterList");
-    public Firebase userList = database.child("userList");
+    public static final String userRoot = "userList";
+    public static final String eventRoot = "eventList";
+    public Firebase eventList = database.child(eventRoot);
+    public Firebase userList = database.child(userRoot);
 
     private static FirebaseUtils instance = null;
 
@@ -38,7 +42,7 @@ public class FirebaseUtils {
     }
 
     public void createEventMasterList(EventData event) {
-        masterList.push().setValue(generateMapFromEventData(event));
+        eventList.push().setValue(generateMapFromEventData(event));
     }
 
     public HashMap<String, Object> generateMapFromUserData(UserData userData) {
@@ -51,37 +55,56 @@ public class FirebaseUtils {
         return data;
     }
 
+    //TODO move to EventData class
     public HashMap<String, Object> generateMapFromEventData(EventData event) {
         HashMap<String, Object> data = new HashMap<String, Object>();
 
         data.put("title", event.getTitle());
         data.put("hashtag", event.getHashtag());
         data.put("description", event.getDescription());
+        data.put("eventEndDate", event.getEventEndDate());
+        data.put("eventStartDate", event.getEventStartDate());
+        data.put("eventEndTime", event.getEventEndTime());
+        data.put("eventStartTime", event.getEventStartTime());
+        data.put("location", event.getLocation());
+        data.put("isPrivate", event.getIsPrivate());
+        data.put("amountNeeded", event.getAmountNeeded());
+        data.put("peopleInvited", event.getPeopleInvited());
+        data.put("peopleAttending", event.getPeopleAttending());
+
+        /*
         data.put("eventImage", event.getEventImage());
         data.put("funds", event.getFunds());
         data.put("peopleAttending", event.getPeopleAttending());
         data.put("peopleInvited", event.getPeopleInvited());
+        */
 
         return data;
     }
 
-    public void inviteToEvent(String personId, String eventId) {
-        masterList.child(eventId).child("peopleInvited").push().setValue(personId);
+    //TODO
+    public static Bitmap stringToBitmap(String image) {
+        return null;
+    }
+
+    public void inviteToEvent(String personId, Long eventId) {
+        eventList.child(eventId.toString()).child("peopleInvited").push().setValue(personId);
         userList.child(personId).child("eventsInvitedTo").push().setValue(eventId);
     }
 
-    public void acceptInviteToEvent(String personId, String eventId) {
-        masterList.child(eventId).child("peopleInvited").child(personId).removeValue();
-        userList.child(personId).child("eventsInvitedTo").child(eventId).removeValue();
+    public void acceptInviteToEvent(String personId, Long eventId) {
+        eventList.child(eventId.toString()).child("peopleInvited").child(personId).removeValue();
+        eventList.child(eventId.toString()).child("peopleAttending").push().setValue(personId);
+        userList.child(personId).child("eventsInvitedTo").child(eventId.toString()).removeValue();
     }
 
     public void addFundsToEvent(final String eventId, final Integer amount) {
-        Query query = masterList.child(eventId);
+        Query query = eventList.child(eventId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
              @Override
              public void onDataChange(DataSnapshot dataSnapshot) {
                  int prevFunds = (Integer) dataSnapshot.child("funds").getValue();
-                 masterList.child(eventId).child("funds").setValue(prevFunds + amount);
+                 eventList.child(eventId).child("funds").setValue(prevFunds + amount);
              }
 
              @Override

@@ -26,7 +26,6 @@ import java.util.Arrays;
  */
 public class FacebookActivity extends Activity {
 
-    private TextView username;
     private CallbackManager callbackManager;
     private LoginButton login_button;
     public static final String AUTH_ID = "A";
@@ -55,17 +54,24 @@ public class FacebookActivity extends Activity {
                 Log.i(TAG, "Access token: " + loginResult.getAccessToken());
 
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra(AUTH_ID, loginResult.getAccessToken().getApplicationId());
-                setResult(RESULT_OK, resultIntent);
-                finish();
+                String uid = loginResult.getAccessToken().getUserId();
+
+                if (uid != null) {
+                    resultIntent.putExtra(AUTH_ID, uid);
+                    FacebookActivity.this.setResult(RESULT_OK, resultIntent);
+                    FacebookActivity.this.finish();
+                } else {
+                    FacebookActivity.this.setResult(RESULT_ERROR);
+                    FacebookActivity.this.finish();
+                }
             }
 
             @Override
             public void onCancel() {
                 Log.i(TAG, "Canceled Facebook Login");
                 Intent resultIntent = new Intent();
-                setResult(RESULT_OK, resultIntent);
-                finish();
+                FacebookActivity.this.setResult(RESULT_CANCELED, resultIntent);
+                FacebookActivity.this.finish();
             }
 
             @Override
@@ -74,8 +80,8 @@ public class FacebookActivity extends Activity {
                 e.printStackTrace();
 
                 Intent resultIntent = new Intent();
-                setResult(RESULT_ERROR, resultIntent);
-                finish();
+                FacebookActivity.this.setResult(RESULT_ERROR, resultIntent);
+                FacebookActivity.this.finish();
             }
         });
 

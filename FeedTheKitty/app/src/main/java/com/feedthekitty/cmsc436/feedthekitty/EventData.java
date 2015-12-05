@@ -1,7 +1,9 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 
@@ -30,6 +32,11 @@ public class EventData {
     private String description;
     private List<String> peopleInvited;
     private List<String> peopleAttending;
+
+    public EventData() {
+        funds = 0;
+        // other initialization here
+    }
 
     public void setStackId(long stackId) {
         this.stackId = stackId;
@@ -147,6 +154,46 @@ public class EventData {
 
     public List<String> getPeopleAttending() {
         return peopleAttending;
+    }
+
+    public Intent packageIntoIntent() {
+        Intent intent = new Intent();
+
+        intent.putExtra("title", title);
+        intent.putExtra("hashtag", hashtag);
+        intent.putExtra("description", description);
+        intent.putExtra("eventEndDate", eventEndDate);
+        intent.putExtra("eventStartDate", eventStartDate);
+        intent.putExtra("eventEndTime", eventEndTime);
+        intent.putExtra("eventStartTime", eventStartTime);
+        intent.putExtra("location", location);
+        intent.putExtra("isPrivate", isPrivate);
+        intent.putExtra("amountNeeded", amountNeeded);
+        intent.putExtra("eventImage", eventImage);
+        intent.putExtra("funds", funds);
+
+        return intent;
+    }
+
+    public static EventData createFromIntent(Intent intent) {
+
+        Bundle extras = intent.getExtras();
+        EventData eventData = new EventData();
+
+        eventData.setTitle(extras.getString("title"));
+        eventData.setHashtag(extras.getString("hashtag"));
+        eventData.setDescription(extras.getString("description"));
+        eventData.setEventEndDate(extras.getString("eventEndDate"));
+        eventData.setEventStartDate(extras.getString("eventStartDate"));
+        eventData.setEventEndTime(extras.getString("eventEndTime"));
+        eventData.setEventStartTime(extras.getString("eventStartTime"));
+        eventData.setLocation(extras.getString("location"));
+        eventData.setIsPrivate(extras.getBoolean("isPrivate"));
+        eventData.setAmountNeeded(extras.getString("amountNeeded"));
+        eventData.setEventImage(extras.getString("eventImage"));
+        eventData.setFunds(extras.getInt("funds"));
+
+        return eventData;
     }
 
 

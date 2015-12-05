@@ -33,6 +33,13 @@
         android:layout_centerInParent="true"
         android:id="@+id/donation"
         android:text="@string/donate"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/inviteUsers"
+        android:text="@string/inviteUsers"/>
+
 
     <TextView
         android:layout_width="wrap_content"

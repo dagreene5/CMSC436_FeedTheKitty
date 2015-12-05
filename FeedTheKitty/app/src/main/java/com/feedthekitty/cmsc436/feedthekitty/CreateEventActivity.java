@@ -170,7 +170,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
             data.putExtra("isPrivate", isPrivate.isChecked());
             data.putExtra("description", description.getText().toString());
             data.putExtra("hashtag", hashTag.getText().toString());
-            data.putExtra("moneyToRaise", moneyToRaise.getText().toString());
+            data.putExtra("amountNeeded", moneyToRaise.getText().toString());
             // /finish activity
             finish();
         }

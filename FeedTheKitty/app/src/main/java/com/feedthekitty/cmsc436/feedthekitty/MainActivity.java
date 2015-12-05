@@ -31,44 +31,22 @@ public class MainActivity extends AppCompatActivity {
 
     public static String firebaseURLKey = "f";
     public static String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
-    public boolean loggedIn = false;
     public static final Integer REQUEST_LOGIN = 5;
     static private final int GET_EVENT_REQUEST_CODE = 1;
     public static final String TAG = "MainActivity";
-    Button eventSearchButton, addTestEventButton, browseBtn, createBtn;
+    Button browseBtn, createBtn;
     Firebase database;
     FirebaseUtils firebaseUtils;
 
     public ListView userList;
 
+    private String uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         Firebase.setAndroidContext(this);
-
-        Intent intent = new Intent(this, FacebookActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
-
-        eventSearchButton = (Button) findViewById(R.id.button_search_all_events);
-        addTestEventButton = (Button) findViewById(R.id.button_add_test_events);
-
-        addTestEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TestCreateEventActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        eventSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventSearchActivity.class);
-                startActivity(intent);
-            }
-        });
 
         //If logged in via FB
 
@@ -82,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                // Intent intent = new Intent(MainActivity.this, browse.class);
                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, EventSearchActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -94,11 +74,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         database = new Firebase(MainActivity.firebaseUrl);
-        Query query = database.child("masterList"); //change this to userList later
+        Query query = database.child("eventList"); //change this to userList later
         EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
         userList = (ListView) findViewById(R.id.list);
         userList.setAdapter(adapter);
 
+        // Grab reference to FirebaseUtils to store data
+        firebaseUtils = FirebaseUtils.getInstance();
 
         // Test Storing data
         /*
@@ -111,37 +93,41 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EventSearchActivity.class);
         startActivity(intent);
          */
+
+        requestLogin();
+    }
+
+    private void requestLogin() {
+        Intent intent = new Intent(this, FacebookActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_LOGIN) {
 
-            if (requestCode == REQUEST_LOGIN) {
+            if (resultCode == RESULT_OK) {
 
-                Log.i(TAG, "AUTH_ID passed back to main activity: " +
-                        data.getExtras().getString(FacebookActivity.AUTH_ID));
+                uid = data.getExtras().getString(FacebookActivity.AUTH_ID);
+                Log.i(TAG, "AUTH_ID passed back to main activity: " + uid);
+
+            } else if (resultCode == RESULT_CANCELED ||
+                    resultCode == FacebookActivity.RESULT_ERROR) {
+
+                // Failed/canceled. Ask to login again
+                requestLogin();
             }
+        }
 
-            if (requestCode == GET_EVENT_REQUEST_CODE) {
-                // access data like this ? data.getExtras().get("event"));
-                EventData eventData = new EventData();
-                firebaseUtils = FirebaseUtils.getInstance();
-                Bundle extras = data.getExtras();
-                eventData.setTitle(extras.getString("eventName"));
-                eventData.setHashtag(extras.getString("hashtag"));
-                eventData.setDescription(extras.getString("description"));
-                eventData.setEventEndDate(extras.getString("eventEndDate"));
-                eventData.setEventStartDate(extras.getString("eventStartDate"));
-                eventData.setEventEndTime(extras.getString("eventEndTime"));
-                eventData.setEventStartTime(extras.getString("eventStartTime"));
-                eventData.setLocation(extras.getString("location"));
-                eventData.setIsPrivate(extras.getBoolean("isPrivate"));
-                eventData.setAmountNeeded(extras.getString("moneyToRaise"));
+        if (requestCode == GET_EVENT_REQUEST_CODE) {
+
+            if (resultCode == RESULT_OK) {
+                EventData eventData = EventData.createFromIntent(data);
                 firebaseUtils.createEventMasterList(eventData);
             }
         }
+
     }
 
     @Override
