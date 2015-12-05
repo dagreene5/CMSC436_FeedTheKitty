@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
 
-        //Intent intent = new Intent(this, FacebookActivity.class);
-        //startActivityForResult(intent, REQUEST_LOGIN);
+        Intent intent = new Intent(this, FacebookActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
 
         eventSearchButton = (Button) findViewById(R.id.button_search_all_events);
         addTestEventButton = (Button) findViewById(R.id.button_add_test_events);

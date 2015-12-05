@@ -46,9 +46,10 @@ public class FacebookActivity extends Activity {
 
         callbackManager = CallbackManager.Factory.create();
 
-
         login_button = (LoginButton) findViewById(R.id.login_button);
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i(TAG, "Successfully logged in to Facebook with result: " + loginResult.toString());
@@ -79,6 +80,11 @@ public class FacebookActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 /*
     private void onFacebookAccessTokenChange(AccessToken token) {
