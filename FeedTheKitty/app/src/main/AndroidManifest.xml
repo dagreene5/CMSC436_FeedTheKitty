@@ -44,6 +44,10 @@
         <activity android:name=".CreateEventActivity"
             android:label="New Event">
         </activity>
+        <activity
+            android:name=".FacebookActivity"
+            android:label="facebookactivity">
+        </activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
