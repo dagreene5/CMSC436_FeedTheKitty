@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 eventData.setEventStartTime(extras.getString("eventStartTime"));
                 eventData.setLocation(extras.getString("location"));
                 eventData.setIsPrivate(extras.getBoolean("isPrivate"));
+                eventData.setAmountNeeded(extras.getString("moneyToRaise"));
                 firebaseUtils.createEventMasterList(eventData);
             }
         }

@@ -38,6 +38,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     private CheckBox isPrivate;
     private EditText description;
     private EditText hashTag;
+    private EditText moneyToRaise;
 
     private Button createEvent;
     SimpleDateFormat simpleDateFormat;
@@ -63,6 +64,8 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         description.setOnClickListener(this);
         hashTag = (EditText) findViewById(R.id.event_create_hashtags);
         hashTag.setOnClickListener(this);
+        moneyToRaise = (EditText) findViewById(R.id.money_to_raise);
+        moneyToRaise.setOnClickListener(this);
 
         /** Initialize Fields for datepicker and Timepicker */
         simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
@@ -167,6 +170,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
             data.putExtra("isPrivate", isPrivate.isChecked());
             data.putExtra("description", description.getText().toString());
             data.putExtra("hashtag", hashTag.getText().toString());
+            data.putExtra("moneyToRaise", moneyToRaise.getText().toString());
             // /finish activity
             finish();
         }

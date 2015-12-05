@@ -18,6 +18,7 @@ public class EventData {
     private String title;
     private String hashtag;
     private String location;
+    private String amountNeeded;
     //TODO
     private Boolean isPrivate;
     private String eventStartTime;
@@ -52,6 +53,14 @@ public class EventData {
 
     public String getEventStartTime() {
         return eventStartTime;
+    }
+
+    public void setAmountNeeded(String amount) {
+        this.amountNeeded = amount;
+    }
+
+    public String getAmountNeeded() {
+        return amountNeeded;
     }
 
     public void setLocation(String location) {
