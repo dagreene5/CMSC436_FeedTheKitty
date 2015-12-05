@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
@@ -16,22 +18,28 @@ import com.firebase.client.Query;
 import java.util.ArrayList;
 
 /**
- * Created by davidgreene on 12/2/15.
+ * Created by davidgreene on 12/5/15.
  */
-public class EventListAdapter extends BaseAdapter {
+public class UserListAdapter  extends BaseAdapter {
 
-    private ArrayList<EventData> listItems;
+    private ArrayList<UserData> listItems;
     private ArrayList<String> keys;
     private Query dataRef;private LayoutInflater inflater;
     private int layout;
     private Activity activity;
     private ChildEventListener listener;
-    public static final String HASHTAG_SEARCH = "hs";
-    public static final String TITLE_SEARCH = "ts";
-    public static final String TAG = "EventListAdapter";
+    public static final String TAG = "UserListAdapter";
 
-    public EventListAdapter(Query dataRef, int layout, Activity activity, final String searchTerm,
-                            final String searchType) {
+    //TODO add ability to refine search as letters are added to serach term
+
+    /**
+     *
+     * @param dataRef
+     * @param layout
+     * @param activity
+     * @param searchTerm
+     */
+    public UserListAdapter(Query dataRef, int layout, Activity activity, final String searchTerm) {
 
         this.dataRef = dataRef;
         this.layout = layout;
@@ -39,15 +47,16 @@ public class EventListAdapter extends BaseAdapter {
 
         inflater = activity.getLayoutInflater();
 
-        listItems = new ArrayList<EventData>();
+        listItems = new ArrayList<UserData>();
         keys = new ArrayList<String>();
 
-        if (searchType == null) {
+        // No name searched, display all users
+        if (searchTerm == null || searchTerm.equals("")) {
             listener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
 
-                    EventData item = dataSnapshot.getValue(EventData.class);
+                    UserData item = dataSnapshot.getValue(UserData.class);
 
                     grabItem(dataSnapshot, lastKey, item);
                 }
@@ -72,46 +81,14 @@ public class EventListAdapter extends BaseAdapter {
                     // do nothing
                 }
             };
-        } else if (searchType.equals(HASHTAG_SEARCH)) {
+        } else {
             listener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
 
-                    EventData item = dataSnapshot.getValue(EventData.class);
+                    UserData item = dataSnapshot.getValue(UserData.class);
 
-                    if (item.getHashtag().equals(searchTerm)) {
-                        grabItem(dataSnapshot, lastKey, item);
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    // do nothing. List should be a snapshot of dataset
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    // do nothing
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    // do nothing
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    // do nothing
-                }
-            };
-        } else if (searchType.equals(TITLE_SEARCH)) {
-            listener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
-
-                    EventData item = dataSnapshot.getValue(EventData.class);
-                    if (item.getTitle().equals(searchTerm)) {
+                    if (item.getFullName().toLowerCase().contains(searchTerm.toLowerCase())) {
                         grabItem(dataSnapshot, lastKey, item);
                     }
                 }
@@ -137,8 +114,8 @@ public class EventListAdapter extends BaseAdapter {
                 }
             };
         }
-        this.dataRef.addChildEventListener(listener);
 
+        this.dataRef.addChildEventListener(listener);
     }
 
     public void close() {
@@ -148,7 +125,7 @@ public class EventListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void grabItem(DataSnapshot dataSnapshot, String lastKey, EventData item) {
+    public void grabItem(DataSnapshot dataSnapshot, String lastKey, UserData item) {
         String key = dataSnapshot.getKey();
 
         if (lastKey == null) {
@@ -170,13 +147,12 @@ public class EventListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void populateListItem(View view, EventData data) {
+    public void populateListItem(View view, UserData data) {
 
-        TextView title = (TextView) view.findViewById(R.id.text_event_title);
-        TextView hashtag = (TextView) view.findViewById(R.id.text_event_hashtag);
+        TextView fullName = (TextView) view.findViewById(R.id.text_full_name);
+        //ImageView userImage = (ImageView) view.findViewById(R.id.image_user);
 
-        title.setText(data.getTitle());
-        hashtag.setText(data.getHashtag());
+        fullName.setText(data.getFullName());
     }
 
     @Override
@@ -201,8 +177,10 @@ public class EventListAdapter extends BaseAdapter {
             convertView = inflater.inflate(layout, parent, false);
         }
 
-        EventData item = listItems.get(position);
+        UserData item = listItems.get(position);
         populateListItem(convertView, item);
+
         return convertView;
     }
+
 }
