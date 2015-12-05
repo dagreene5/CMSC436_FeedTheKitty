@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ListView;
-
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
 
         //If logged in via FB
-
         setContentView(R.layout.homeview);
 
         browseBtn = (Button) findViewById(R.id.browse_btn);
