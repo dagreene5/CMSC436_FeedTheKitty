@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
 
-        Intent intent = new Intent(this, FacebookActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
+        //Intent intent = new Intent(this, FacebookActivity.class);
+        //startActivityForResult(intent, REQUEST_LOGIN);
 
         eventSearchButton = (Button) findViewById(R.id.button_search_all_events);
         addTestEventButton = (Button) findViewById(R.id.button_add_test_events);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //If logged in via FB
-        /*
+
         setContentView(R.layout.homeview);
 
         browseBtn = (Button) findViewById(R.id.browse_btn);
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
         userList = (ListView) findViewById(R.id.list);
         userList.setAdapter(adapter);
-        */
+
 
         // Test Storing data
         /*
