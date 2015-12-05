@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Firebase.setAndroidContext(this);
+
         database = new Firebase(MainActivity.firebaseUrl);
 
         // Grab reference to FirebaseUtils to store data
         firebaseUtils = FirebaseUtils.getInstance();
 
         //If logged in via FB
-
         setContentView(R.layout.homeview);
 
         browseBtn = (Button) findViewById(R.id.browse_btn);
