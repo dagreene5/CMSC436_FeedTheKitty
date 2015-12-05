@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //If logged in via FB
-        /*
+
         setContentView(R.layout.homeview);
 
         browseBtn = (Button) findViewById(R.id.browse_btn);
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
         userList = (ListView) findViewById(R.id.list);
         userList.setAdapter(adapter);
-        */
+
 
         // Test Facebook Login
         /*Intent intent = new Intent(this, FacebookLogin.class);
