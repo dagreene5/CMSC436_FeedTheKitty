@@ -11,20 +11,11 @@ import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Toast;
 import android.widget.ListView;
-
-import com.facebook.*;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-
-import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +38,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Firebase.setAndroidContext(this);
-        
+        database = new Firebase(MainActivity.firebaseUrl);
+
+        // Grab reference to FirebaseUtils to store data
+        firebaseUtils = FirebaseUtils.getInstance();
+
         //If logged in via FB
 
         setContentView(R.layout.homeview);
@@ -58,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         browseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(MainActivity.this, browse.class);
-               // startActivity(intent);
+                // Intent intent = new Intent(MainActivity.this, browse.class);
+                // startActivity(intent);
                 Intent intent = new Intent(MainActivity.this, EventSearchActivity.class);
                 startActivity(intent);
             }
@@ -68,19 +63,14 @@ public class MainActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
-               startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
+                Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
+                startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
             }
         });
 
-        database = new Firebase(MainActivity.firebaseUrl);
-        Query query = database.child("eventList"); //change this to userList later
-        EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
-        userList = (ListView) findViewById(R.id.list);
-        userList.setAdapter(adapter);
+        displayUserData();
 
-        // Grab reference to FirebaseUtils to store data
-        firebaseUtils = FirebaseUtils.getInstance();
+
 
         // Test Storing data
         /*
@@ -94,7 +84,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
          */
 
-        requestLogin();
+        // TODO get this working
+        //requestLogin();
+        uid = "testUID";
+    }
+
+    private void displayUserData() {
+        //TODO
+
     }
 
     private void requestLogin() {
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 EventData eventData = EventData.createFromIntent(data);
-                firebaseUtils.createEventMasterList(eventData);
+                firebaseUtils.createEventData(eventData);
             }
         }
 

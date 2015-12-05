@@ -6,10 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.firebase.client.Firebase;
-
-import java.util.HashMap;
-
 /**
  * Created by davidgreene on 12/2/15.
  *
@@ -47,7 +43,7 @@ public class TestCreateEventActivity extends Activity {
                 eventData.setTitle(titleText);
                 eventData.setTitle(hashtagText);
 
-                firebaseUtils.createEventMasterList(eventData);
+                firebaseUtils.createEventData(eventData);
             }
         });
     }

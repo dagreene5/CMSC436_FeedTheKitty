@@ -20,153 +20,44 @@ import java.util.ArrayList;
  */
 public class EventListAdapter extends BaseAdapter {
 
+    private ArrayList<EventData> originalList;
     private ArrayList<EventData> listItems;
-    private ArrayList<String> keys;
-    private Query dataRef;private LayoutInflater inflater;
-    private int layout;
-    private Activity activity;
-    private ChildEventListener listener;
-    public static final String HASHTAG_SEARCH = "hs";
-    public static final String TITLE_SEARCH = "ts";
+    private LayoutInflater inflater;
     public static final String TAG = "EventListAdapter";
 
-    public EventListAdapter(Query dataRef, int layout, Activity activity, final String searchTerm,
-                            final String searchType) {
-
-        this.dataRef = dataRef;
-        this.layout = layout;
-        this.activity = activity;
+    public EventListAdapter(ArrayList<EventData> originalList, Activity activity) {
+        this.originalList = originalList;
+        this.listItems = originalList;
 
         inflater = activity.getLayoutInflater();
-
-        listItems = new ArrayList<EventData>();
-        keys = new ArrayList<String>();
-
-        if (searchType == null) {
-            listener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
-
-                    EventData item = dataSnapshot.getValue(EventData.class);
-
-                    grabItem(dataSnapshot, lastKey, item);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    // do nothing. List should be a snapshot of dataset
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    // do nothing
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    // do nothing
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    // do nothing
-                }
-            };
-        } else if (searchType.equals(HASHTAG_SEARCH)) {
-            listener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
-
-                    EventData item = dataSnapshot.getValue(EventData.class);
-
-                    if (item.getHashtag().equals(searchTerm)) {
-                        grabItem(dataSnapshot, lastKey, item);
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    // do nothing. List should be a snapshot of dataset
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    // do nothing
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    // do nothing
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    // do nothing
-                }
-            };
-        } else if (searchType.equals(TITLE_SEARCH)) {
-            listener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
-
-                    EventData item = dataSnapshot.getValue(EventData.class);
-                    if (item.getTitle().equals(searchTerm)) {
-                        grabItem(dataSnapshot, lastKey, item);
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    // do nothing. List should be a snapshot of dataset
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    // do nothing
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    // do nothing
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    // do nothing
-                }
-            };
-        }
-        this.dataRef.addChildEventListener(listener);
-
     }
 
-    public void close() {
-        dataRef.removeEventListener(listener);
-        listItems.clear();
-        keys.clear();
+    public void resetList() {
+        this.listItems = originalList;
         notifyDataSetChanged();
     }
 
-    public void grabItem(DataSnapshot dataSnapshot, String lastKey, EventData item) {
-        String key = dataSnapshot.getKey();
+    public void filterByHashtag(String hashtag) {
+        ArrayList<EventData> newList = new ArrayList<EventData>();
 
-        if (lastKey == null) {
-            listItems.add(0, item);
-            keys.add(0, key);
-        } else {
-            int prevIndex = keys.indexOf(lastKey);
-            int index = prevIndex + 1;
-
-            if (index == listItems.size()) {
-                listItems.add(item);
-                keys.add(key);
-            } else {
-                listItems.add(index, item);
-                keys.add(index, key);
+        for (EventData data : listItems) {
+            if (data.getHashtag().toLowerCase().contains(hashtag.toLowerCase())) {
+                newList.add(data);
             }
         }
+        listItems = newList;
+        notifyDataSetChanged();
+    }
 
+    public void filterByTitle(String title) {
+        ArrayList<EventData> newList = new ArrayList<EventData>();
+
+        for (EventData data : listItems) {
+            if (data.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                newList.add(data);
+            }
+        }
+        listItems = newList;
         notifyDataSetChanged();
     }
 
@@ -198,7 +89,7 @@ public class EventListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = inflater.inflate(layout, parent, false);
+            convertView = inflater.inflate(R.layout.event_search_row, parent, false);
         }
 
         EventData item = listItems.get(position);

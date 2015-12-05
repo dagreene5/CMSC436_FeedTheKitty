@@ -32,10 +32,10 @@ import java.util.ArrayList;
 public class EventSearchActivity extends ListActivity {
 
     Button searchButton;
-    Button showAllButton;
     EditText searchText;
     RadioButton radioButtonHashtag;
     RadioButton radioButtonTitle;
+    FirebaseUtils firebaseUtils = FirebaseUtils.getInstance();
 
     boolean checkHashtag = false;
     boolean checkTitle = false;
@@ -52,6 +52,9 @@ public class EventSearchActivity extends ListActivity {
 
         setContentView(R.layout.activity_event_search);
         database = new Firebase(MainActivity.firebaseUrl);
+
+        adapter = new EventListAdapter(firebaseUtils.getAllEvents(), this);
+        adapter.notifyDataSetChanged();
 
         listView = getListView();
 
@@ -70,7 +73,6 @@ public class EventSearchActivity extends ListActivity {
 
         // View initialization
         searchButton = (Button) findViewById(R.id.button_search);
-        showAllButton = (Button) findViewById(R.id.button_show_all);
         searchText = (EditText) findViewById(R.id.text_event_search);
         radioButtonHashtag = (RadioButton) findViewById(R.id.radioButton_search_hashtag);
         radioButtonTitle = (RadioButton) findViewById(R.id.radioButton_search_title);
@@ -91,23 +93,6 @@ public class EventSearchActivity extends ListActivity {
             }
         });
 
-        //TODO remove this button
-        showAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (adapter != null) {
-                    adapter.close();
-                }
-
-                Query query = database.child(FirebaseUtils.eventRoot);
-                adapter = new EventListAdapter(query, R.layout.event_search_row,
-                        EventSearchActivity.this, null, null);
-
-                setListAdapter(adapter);
-            }
-        });
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,29 +102,16 @@ public class EventSearchActivity extends ListActivity {
                 // get new search string
                 String text = searchText.getText().toString();
 
-                if (adapter != null) {
-                    adapter.close();
-                }
-
                 if (text == null || text.equals("")) {
-                    return; // TODO clear list on empty search?
+                    adapter.resetList();
+                    return;
                 }
 
                 if (checkHashtag) {
-                    Log.d(TAG, "Searching for hashtag: " + text);
-                    Query query = database.child(FirebaseUtils.eventRoot);
-                    adapter = new EventListAdapter(query, R.layout.event_search_row,
-                            EventSearchActivity.this, text, EventListAdapter.HASHTAG_SEARCH);
-
+                    adapter.filterByHashtag(text);
                 } else if (checkTitle) {
-                    Log.d(TAG, "Searching for title: " + text);
-
-                    Query query = database.child(FirebaseUtils.eventRoot);
-                    adapter = new EventListAdapter(query, R.layout.event_search_row,
-                            EventSearchActivity.this, text, EventListAdapter.TITLE_SEARCH);
+                    adapter.filterByTitle(text);
                 }
-
-                setListAdapter(adapter);
             }
         });
     }

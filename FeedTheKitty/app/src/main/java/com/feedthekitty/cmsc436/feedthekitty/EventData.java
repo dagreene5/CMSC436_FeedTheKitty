@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 
+import com.firebase.client.DataSnapshot;
+
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by davidgreene on 11/20/15.
@@ -22,7 +27,6 @@ public class EventData {
     private String location;
     private String amountNeeded;
     //TODO
-    private Boolean isPrivate;
     private String eventStartTime;
     private String eventEndTime;
     private String eventStartDate;
@@ -30,8 +34,8 @@ public class EventData {
     private Long stackId;
     private Integer funds;
     private String description;
-    private List<String> peopleInvited;
-    private List<String> peopleAttending;
+    private ArrayList<CharSequence> peopleInvited;
+    private ArrayList<CharSequence> peopleAttending;
 
     public EventData() {
         funds = 0;
@@ -133,26 +137,19 @@ public class EventData {
         return description;
     }
 
-    public void setIsPrivate(Boolean isPrivate) {
-        this.isPrivate = isPrivate;
-    }
-
-    public Boolean getIsPrivate() {
-        return isPrivate;
-    }
-    public void setPeopleInvited(List<String> peopleInvited) {
-        this.peopleInvited = peopleInvited;
-    }
-
-    public List<String> getPeopleInvited() {
+    public ArrayList<CharSequence> getPeopleInvited() {
         return peopleInvited;
     }
 
-    public void setPeopleAttending(List<String> peopleAttending) {
+    public void setPeopleInvited(ArrayList<CharSequence> peopleInvited) {
+        this.peopleInvited = peopleInvited;
+    }
+
+    public void setPeopleAttending(ArrayList<CharSequence> peopleAttending) {
         this.peopleAttending = peopleAttending;
     }
 
-    public List<String> getPeopleAttending() {
+    public ArrayList<CharSequence> getPeopleAttending() {
         return peopleAttending;
     }
 
@@ -167,12 +164,52 @@ public class EventData {
         intent.putExtra("eventEndTime", eventEndTime);
         intent.putExtra("eventStartTime", eventStartTime);
         intent.putExtra("location", location);
-        intent.putExtra("isPrivate", isPrivate);
         intent.putExtra("amountNeeded", amountNeeded);
         intent.putExtra("eventImage", eventImage);
         intent.putExtra("funds", funds);
 
         return intent;
+    }
+
+    public Map<String, Object> packageIntoMap() {
+
+        HashMap<String, Object> data = new HashMap<String, Object>();
+
+        data.put("title", title);
+        data.put("hashtag", hashtag);
+        data.put("description", description);
+        data.put("eventEndDate", eventEndDate);
+        data.put("eventStartDate", eventStartDate);
+        data.put("eventEndTime", eventEndTime);
+        data.put("eventStartTime", eventStartTime);
+        data.put("location", location);
+        data.put("amountNeeded", amountNeeded);
+        data.put("peopleInvited", peopleInvited);
+        data.put("peopleAttending", peopleAttending);
+
+        return data;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static EventData createFromDataSnapshot(Long stackId, DataSnapshot dataSnapshot) {
+
+        EventData eventData = new EventData();
+        eventData.setStackId(stackId);
+        eventData.setTitle((String) dataSnapshot.child("title").getValue());
+        eventData.setHashtag((String) dataSnapshot.child("hashtag").getValue());
+        eventData.setDescription((String) dataSnapshot.child("description").getValue());
+        eventData.setEventEndDate((String) dataSnapshot.child("eventEndDate").getValue());
+        eventData.setEventStartDate((String) dataSnapshot.child("eventStartDate").getValue());
+        eventData.setEventEndTime((String) dataSnapshot.child("eventEndTime").getValue());
+        eventData.setEventStartTime((String) dataSnapshot.child("eventStartTime").getValue());
+        eventData.setLocation((String) dataSnapshot.child("location").getValue());
+        eventData.setAmountNeeded((String) dataSnapshot.child("amountNeeded").getValue());
+        eventData.setPeopleInvited((ArrayList<CharSequence>) dataSnapshot.child("peopleInvited")
+                .getValue());
+        eventData.setPeopleAttending((ArrayList<CharSequence>) dataSnapshot.child("peopleAttending")
+                .getValue());
+
+        return eventData;
     }
 
     public static EventData createFromIntent(Intent intent) {
@@ -188,7 +225,6 @@ public class EventData {
         eventData.setEventEndTime(extras.getString("eventEndTime"));
         eventData.setEventStartTime(extras.getString("eventStartTime"));
         eventData.setLocation(extras.getString("location"));
-        eventData.setIsPrivate(extras.getBoolean("isPrivate"));
         eventData.setAmountNeeded(extras.getString("amountNeeded"));
         eventData.setEventImage(extras.getString("eventImage"));
         eventData.setFunds(extras.getInt("funds"));

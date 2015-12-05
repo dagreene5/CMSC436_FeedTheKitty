@@ -1,149 +1,47 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 
 import java.util.ArrayList;
 
 /**
  * Created by davidgreene on 12/5/15.
+ *
  */
-public class UserListAdapter  extends BaseAdapter {
+public class UserListAdapter extends BaseAdapter {
 
+    private ArrayList<UserData> originalList;
     private ArrayList<UserData> listItems;
-    private ArrayList<String> keys;
-    private Query dataRef;private LayoutInflater inflater;
-    private int layout;
-    private Activity activity;
-    private ChildEventListener listener;
-    public static final String TAG = "UserListAdapter";
+    private LayoutInflater inflater;
+    public static final String TAG = "EventListAdapter";
 
-    //TODO add ability to refine search as letters are added to serach term
-
-    /**
-     *
-     * @param dataRef
-     * @param layout
-     * @param activity
-     * @param searchTerm
-     */
-    public UserListAdapter(Query dataRef, int layout, Activity activity, final String searchTerm) {
-
-        this.dataRef = dataRef;
-        this.layout = layout;
-        this.activity = activity;
+    public UserListAdapter(ArrayList<UserData> originalList, Activity activity) {
+        this.originalList = originalList;
+        this.listItems = originalList;
 
         inflater = activity.getLayoutInflater();
-
-        listItems = new ArrayList<UserData>();
-        keys = new ArrayList<String>();
-
-        // No name searched, display all users
-        if (searchTerm == null || searchTerm.equals("")) {
-            listener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
-
-                    UserData item = dataSnapshot.getValue(UserData.class);
-
-                    grabItem(dataSnapshot, lastKey, item);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    // do nothing. List should be a snapshot of dataset
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    // do nothing
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    // do nothing
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    // do nothing
-                }
-            };
-        } else {
-            listener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String lastKey) {
-
-                    UserData item = dataSnapshot.getValue(UserData.class);
-
-                    if (item.getFullName().toLowerCase().contains(searchTerm.toLowerCase())) {
-                        grabItem(dataSnapshot, lastKey, item);
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    // do nothing. List should be a snapshot of dataset
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    // do nothing
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    // do nothing
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    // do nothing
-                }
-            };
-        }
-
-        this.dataRef.addChildEventListener(listener);
     }
 
-    public void close() {
-        dataRef.removeEventListener(listener);
-        listItems.clear();
-        keys.clear();
+    public void resetList() {
+        this.listItems = originalList;
         notifyDataSetChanged();
     }
 
-    public void grabItem(DataSnapshot dataSnapshot, String lastKey, UserData item) {
-        String key = dataSnapshot.getKey();
+    //TODO first and last...
+    public void filterByName(String name) {
+        ArrayList<UserData> newList = new ArrayList<UserData>();
 
-        if (lastKey == null) {
-            listItems.add(0, item);
-            keys.add(0, key);
-        } else {
-            int prevIndex = keys.indexOf(lastKey);
-            int index = prevIndex + 1;
-
-            if (index == listItems.size()) {
-                listItems.add(item);
-                keys.add(key);
-            } else {
-                listItems.add(index, item);
-                keys.add(index, key);
+        for (UserData data : listItems) {
+            if (data.getFullName().toLowerCase().contains(name.toLowerCase())) {
+                newList.add(data);
             }
         }
-
+        listItems = newList;
         notifyDataSetChanged();
     }
 
@@ -174,13 +72,11 @@ public class UserListAdapter  extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = inflater.inflate(layout, parent, false);
+            convertView = inflater.inflate(R.layout.user_search_row, parent, false);
         }
 
         UserData item = listItems.get(position);
         populateListItem(convertView, item);
-
         return convertView;
     }
-
 }

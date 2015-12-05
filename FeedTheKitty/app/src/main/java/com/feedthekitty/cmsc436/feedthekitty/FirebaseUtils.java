@@ -1,14 +1,19 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by davidgreene on 12/2/15.
@@ -18,68 +23,117 @@ public class FirebaseUtils {
     private Firebase database = new Firebase(MainActivity.firebaseUrl);
     public static final String userRoot = "userList";
     public static final String eventRoot = "eventList";
+    public static final HashMap<Long, EventData> eventDataMap = new HashMap<Long, EventData>();
+    public static final HashMap<String, UserData> userDataMap = new HashMap<String, UserData>();
     public Firebase eventList = database.child(eventRoot);
     public Firebase userList = database.child(userRoot);
+    private ChildEventListener userListener;
+    private ChildEventListener eventListener;
 
     private static FirebaseUtils instance = null;
 
+    public static final String TAG = "FirebaseUtils";
+
+    public ArrayList<EventData> getAllEvents() {
+        ArrayList<EventData> allEvents = new ArrayList<EventData>();
+        allEvents.addAll(eventDataMap.values());
+        return allEvents;
+    }
+
+    public ArrayList<UserData> getAllUsers() {
+        ArrayList<UserData> allUsers = new ArrayList<UserData>();
+        allUsers.addAll(userDataMap.values());
+        return allUsers;
+    }
+
     private FirebaseUtils() {
 
+        userListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String uid = (String) dataSnapshot.getValue();
+                UserData userData = UserData.createFromDataSnapshot(uid, dataSnapshot);
+                Log.d(TAG, "Recovered: " + userData.toString());
+                userDataMap.put(uid, userData);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "on child changed call for userListener");
+                onChildAdded(dataSnapshot, s);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "on child removed call for userListener");
+                eventDataMap.remove((String) dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        eventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Long stackId = (Long) dataSnapshot.getValue();
+                EventData eventData = EventData.createFromDataSnapshot(stackId, dataSnapshot);
+                Log.d(TAG, "Recovered EventData: " + eventData.toString());
+                eventDataMap.put(stackId, eventData);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "on child changed call for eventListener");
+                onChildAdded(dataSnapshot, s);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "on child removed call for eventListener");
+                eventDataMap.remove((Long) dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+
+        userList.addChildEventListener(userListener);
+        eventList.addChildEventListener(eventListener);
     }
 
-    // TODO store event keys, not fully copy
-    /*
-    public void storeEventUserList(EventData event, String uid) {
-        storeEventUserList(generateMapFromEventData(event), uid);
-    }
-    public void storeEventUserList(HashMap<String, Object> data, String uid) {
-        storeEventInPath(uid + "/eventList", data);
-    }
-    */
-
-    public void createAccount(UserData userData) {
-        userList.child(userData.getUserId()).setValue(generateMapFromUserData(userData));
+    public UserData fetchUserData(String uid) {
+        return userDataMap.get(uid);
     }
 
-    public void createEventMasterList(EventData event) {
-        eventList.push().setValue(generateMapFromEventData(event));
+    public EventData fetchEventData(Long eventId) {
+        return eventDataMap.get(eventId);
     }
 
-    public HashMap<String, Object> generateMapFromUserData(UserData userData) {
-        HashMap<String, Object> data = new HashMap<String, Object>();
-
-        data.put("fullName", userData.getFullName());
-        data.put("eventsAttending", userData.getEventsAttending());
-        data.put("eventsInvitedTo", userData.getEventsInvitedTo());
-
-        return data;
+    //TODO make sure Listeners are picking this up
+    public void storeUserData(UserData userData) {
+        userList.child(userData.getUserId()).setValue(userData.packageIntoMap());
     }
 
-    //TODO move to EventData class
-    public HashMap<String, Object> generateMapFromEventData(EventData event) {
-        HashMap<String, Object> data = new HashMap<String, Object>();
+    public void createEventData(EventData event) {
+        eventList.push().setValue(event.packageIntoMap());
+    }
 
-        data.put("title", event.getTitle());
-        data.put("hashtag", event.getHashtag());
-        data.put("description", event.getDescription());
-        data.put("eventEndDate", event.getEventEndDate());
-        data.put("eventStartDate", event.getEventStartDate());
-        data.put("eventEndTime", event.getEventEndTime());
-        data.put("eventStartTime", event.getEventStartTime());
-        data.put("location", event.getLocation());
-        data.put("isPrivate", event.getIsPrivate());
-        data.put("amountNeeded", event.getAmountNeeded());
-        data.put("peopleInvited", event.getPeopleInvited());
-        data.put("peopleAttending", event.getPeopleAttending());
-
-        /*
-        data.put("eventImage", event.getEventImage());
-        data.put("funds", event.getFunds());
-        data.put("peopleAttending", event.getPeopleAttending());
-        data.put("peopleInvited", event.getPeopleInvited());
-        */
-
-        return data;
+    public void updateEventData(EventData event) {
+        eventList.child(String.valueOf(event.getStackId())).setValue(event.packageIntoMap());
     }
 
     //TODO
