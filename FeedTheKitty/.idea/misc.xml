@@ -4,6 +4,7 @@
     <entry_points version="2.0" />
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -13,6 +14,8 @@
     </option>
   </component>
 >>>>>>> 8a793b7802742c45aa9dc2e2cbeea4e928b6180b
+=======
+>>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
@@ -57,7 +60,7 @@
     <states>
       <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited>Android API 18 Platform</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -11,15 +11,21 @@ import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.Toast;
 
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+=======
+import android.widget.ListView;
+>>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd
 
 import com.firebase.client.Firebase;
+import com.firebase.client.Query;
 
 import java.util.Arrays;
 
@@ -30,10 +36,13 @@ public class MainActivity extends AppCompatActivity {
     public static String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
     public boolean loggedIn = false;
     public static final Integer REQUEST_LOGIN = 5;
+    static private final int GET_EVENT_REQUEST_CODE = 1;
     public static final String TAG = "MainActivity";
-    Button eventSearchButton;
-    Button addTestEventButton;
+    Button eventSearchButton, addTestEventButton, browseBtn, createBtn;
     Firebase database;
+    FirebaseUtils firebaseUtils;
+
+    public ListView userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
+=======
+
+        //If logged in via FB
+        /*
+        setContentView(R.layout.homeview);
+
+        browseBtn = (Button) findViewById(R.id.browse_btn);
+        createBtn = (Button) findViewById(R.id.create_btn);
+
+        browseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent intent = new Intent(MainActivity.this, browse.class);
+               // startActivity(intent);
+            }
+        });
+
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
+               startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
+            }
+        });
+
+        database = new Firebase(MainActivity.firebaseUrl);
+        Query query = database.child("masterList"); //change this to userList later
+        EventListAdapter adapter = new EventListAdapter(query, R.layout.event_search_row, this, null, null);
+        userList = (ListView) findViewById(R.id.list);
+        userList.setAdapter(adapter);
+        */
+
+        // Test Facebook Login
+        /*Intent intent = new Intent(this, FacebookLogin.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
+        */
+>>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd
 
         // Test Storing data
         /*
@@ -76,19 +123,34 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EventSearchActivity.class);
         startActivity(intent);
          */
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_LOGIN) {
+        if (resultCode == RESULT_OK) {
 
-            if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_LOGIN) {
 
                 Log.i(TAG, "AUTH_ID passed back to main activity: " +
                         data.getExtras().getString(FacebookActivity.AUTH_ID));
+            }
+
+            if (requestCode == GET_EVENT_REQUEST_CODE) {
+                // access data like this ? data.getExtras().get("event"));
+                EventData eventData = new EventData();
+                firebaseUtils = FirebaseUtils.getInstance();
+                Bundle extras = data.getExtras();
+                eventData.setTitle(extras.getString("eventName"));
+                eventData.setHashtag(extras.getString("hashtag"));
+                eventData.setDescription(extras.getString("description"));
+                eventData.setEventEndDate(extras.getString("eventEndDate"));
+                eventData.setEventStartDate(extras.getString("eventStartDate"));
+                eventData.setEventEndTime(extras.getString("eventEndTime"));
+                eventData.setEventStartTime(extras.getString("eventStartTime"));
+                eventData.setLocation(extras.getString("location"));
+                eventData.setIsPrivate(extras.getBoolean("isPrivate"));
+                firebaseUtils.createEventMasterList(eventData);
             }
         }
     }
@@ -118,7 +180,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
             return true;
         }
 

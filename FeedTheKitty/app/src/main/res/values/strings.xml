@@ -2,6 +2,7 @@
     <string name="app_name">FeedTheKitty</string>
 
     <string name="menu_search">Search Hashtag</string>
+<<<<<<< HEAD
     <string name="action_settings">Settings</string>
 
     <string name="facebook_app_id">926948180721101</string>
@@ -12,4 +13,17 @@
     <string name="Description"></string>
     <string name="event_post_deadline_date"></string>
     <string name="event_create_hashtags"></string>
+=======
+    <string name="action_home">Home</string>
+
+    <string name="facebook_app_id">926948180721101</string>
+    <string name="event_name">Event Name</string>
+    <string name="location">Location</string>
+    <string name="event_date_and_time">Start showing event on</string>
+    <string name="set_privacy">Private</string>
+    <string name="Description">Description</string>
+    <string name="event_post_deadline_date">Stop showing event on</string>
+    <string name="event_create_hashtags">Hashtag</string>
+
+>>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd
 </resources>
