@@ -26,9 +26,12 @@ public class MainActivity extends AppCompatActivity {
     public static String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
     public boolean loggedIn = false;
     public static final Integer REQUEST_LOGIN = 5;
+    static private final int GET_EVENT_REQUEST_CODE = 1;
     public static final String TAG = "MainActivity";
     Button eventSearchButton, addTestEventButton, browseBtn, createBtn;
     Firebase database;
+    FirebaseUtils firebaseUtils;
+
     public ListView userList;
 
     @Override
@@ -76,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(MainActivity.this, create.class);
-               // startActivity(intent);
+               Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
+               startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
             }
         });
 
@@ -109,12 +112,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_LOGIN) {
+        if (resultCode == RESULT_OK) {
 
-            if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_LOGIN) {
 
                 Log.i(TAG, "AUTH_ID passed back to main activity: " +
                         data.getExtras().getString(FacebookLogin.AUTH_ID));
+            }
+
+            if (requestCode == GET_EVENT_REQUEST_CODE) {
+                // access data like this ? data.getExtras().get("event"));
+                EventData eventData = new EventData();
+                firebaseUtils = FirebaseUtils.getInstance();
+                Bundle extras = data.getExtras();
+                eventData.setTitle(extras.getString("eventName"));
+                eventData.setHashtag(extras.getString("hashtag"));
+                eventData.setDescription(extras.getString("description"));
+                eventData.setEventEndDate(extras.getString("eventEndDate"));
+                eventData.setEventStartDate(extras.getString("eventStartDate"));
+                eventData.setEventEndTime(extras.getString("eventEndTime"));
+                eventData.setEventStartTime(extras.getString("eventStartTime"));
+                eventData.setLocation(extras.getString("location"));
+                eventData.setIsPrivate(extras.getBoolean("isPrivate"));
+                firebaseUtils.createEventMasterList(eventData);
             }
         }
     }

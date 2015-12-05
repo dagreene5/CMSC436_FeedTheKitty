@@ -92,6 +92,7 @@ public class EventData {
     public String getEventEndTime() {
         return eventEndTime;
     }
+
     public void setHashtag(String hashtag) {
         this.hashtag = hashtag;
     }
@@ -116,6 +117,13 @@ public class EventData {
         return description;
     }
 
+    public void setIsPrivate(Boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    public Boolean getIsPrivate() {
+        return isPrivate;
+    }
     public void setPeopleInvited(List<String> peopleInvited) {
         this.peopleInvited = peopleInvited;
     }
