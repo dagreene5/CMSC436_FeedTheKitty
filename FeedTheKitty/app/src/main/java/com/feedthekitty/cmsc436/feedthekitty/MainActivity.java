@@ -13,16 +13,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-<<<<<<< HEAD
 import android.widget.Toast;
+import android.widget.ListView;
 
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-=======
-import android.widget.ListView;
->>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
@@ -73,9 +70,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-=======
-
         //If logged in via FB
         /*
         setContentView(R.layout.homeview);
@@ -105,12 +99,6 @@ public class MainActivity extends AppCompatActivity {
         userList = (ListView) findViewById(R.id.list);
         userList.setAdapter(adapter);
         */
-
-        // Test Facebook Login
-        /*Intent intent = new Intent(this, FacebookLogin.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
-        */
->>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd
 
         // Test Storing data
         /*

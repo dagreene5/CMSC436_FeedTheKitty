@@ -41,14 +41,8 @@ public class FacebookActivity extends Activity {
 
         getIntent();
 
-<<<<<<< HEAD:FeedTheKitty/app/src/main/java/com/feedthekitty/cmsc436/feedthekitty/FacebookActivity.java
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_facebook_login);
-=======
-        username = (TextView) findViewById(R.id.username);
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("email", "user_friends"));
->>>>>>> 768923f8189ee0ede80896cb2c846ad4ae8bfcbd:FeedTheKitty/app/src/main/java/com/feedthekitty/cmsc436/feedthekitty/FacebookLogin.java
 
         callbackManager = CallbackManager.Factory.create();
 
