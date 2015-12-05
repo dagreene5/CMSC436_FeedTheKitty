@@ -23,7 +23,7 @@ public class FirebaseUtils {
     private Firebase database = new Firebase(MainActivity.firebaseUrl);
     public static final String userRoot = "userList";
     public static final String eventRoot = "eventList";
-    public static final HashMap<Long, EventData> eventDataMap = new HashMap<Long, EventData>();
+    public static final HashMap<String, EventData> eventDataMap = new HashMap<String, EventData>();
     public static final HashMap<String, UserData> userDataMap = new HashMap<String, UserData>();
     public Firebase eventList = database.child(eventRoot);
     public Firebase userList = database.child(userRoot);
@@ -51,10 +51,10 @@ public class FirebaseUtils {
         userListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String uid = (String) dataSnapshot.getValue();
-                UserData userData = UserData.createFromDataSnapshot(uid, dataSnapshot);
+                UserData userData = dataSnapshot.getValue(UserData.class);
+                userData.setUserId(dataSnapshot.getKey());
                 Log.d(TAG, "Recovered: " + userData.toString());
-                userDataMap.put(uid, userData);
+                userDataMap.put(userData.getUserId(), userData);
             }
 
             @Override
@@ -82,10 +82,14 @@ public class FirebaseUtils {
         eventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Long stackId = (Long) dataSnapshot.getValue();
-                EventData eventData = EventData.createFromDataSnapshot(stackId, dataSnapshot);
+
+                EventData eventData = dataSnapshot.getValue(EventData.class);
+                eventData.setEventKey(dataSnapshot.getKey());
                 Log.d(TAG, "Recovered EventData: " + eventData.toString());
-                eventDataMap.put(stackId, eventData);
+                Log.d(TAG, "Previous key: " + s);
+                Log.d(TAG, "datasnapshot: " + dataSnapshot.getKey());
+                Log.d(TAG, eventData.getDescription());
+                eventDataMap.put(eventData.getEventKey(), eventData);
             }
 
             @Override
@@ -119,7 +123,7 @@ public class FirebaseUtils {
         return userDataMap.get(uid);
     }
 
-    public EventData fetchEventData(Long eventId) {
+    public EventData fetchEventData(String eventId) {
         return eventDataMap.get(eventId);
     }
 

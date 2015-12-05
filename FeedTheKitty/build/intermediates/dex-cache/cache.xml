@@ -2,88 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.2.2\285cb9c666f0f0f3dd8a1be04e1f457eb7b15113\jackson-annotations-2.2.2.jar"
+        jar="/Users/davidgreene/Desktop/FeedTheKittyFinal/CMSC436_FeedTheKitty/FeedTheKitty/app/libs/json-simple-1.1.1.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\jackson-annotations-2.2.2-3b6e2bd436f616e5357d580511a55ffa4ed3f43f.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.2.0\6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd\bolts-android-1.2.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\bolts-android-1.2.0-b036edb632fc717a3ff0ab40eb7b418711cbdfcc.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\classes-0132f5ccabdaa5ded3645bd86c1ad9dc6fa371cc.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.2\d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b\jackson-core-2.2.2.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\jackson-core-2.2.2-f95ec6972f5cd0fbd0ca7aa5b4b3e6513e43165b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-845243c6ce905f17e144fc023edf83ba7d5d9290.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.firebase\tubesock\0.0.12\6ec0bbd3e161a73ed672284b587fd32309a86d7a\tubesock-0.0.12.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="6ec0bbd3e161a73ed672284b587fd32309a86d7a">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\tubesock-0.0.12-28331ac5c40cd82d4c7e36af268be8609624d9eb.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-jvm\2.4.0\558e074f136fee609b8758480ecd00e286595137\firebase-client-jvm-2.4.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="558e074f136fee609b8758480ecd00e286595137">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\firebase-client-jvm-2.4.0-fa3c3de8e1cf926bb3caf46ef473bcde9d2d45c0.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\AppData\Local\Android\android-studio2\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-6c6d687c8695b2125f33a0e20bd0f0bab10ca39b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.2.2\3c8f6018eaa72d43b261181e801e6f8676c16ef6\jackson-databind-2.2.2.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\jackson-databind-2.2.2-90b4bc1569d7858b7041ea209656a9dc1603339c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.6.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="1c1afa0ab2a8197a5da1b36c4167a9e479cb74d9">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\classes-ab4b86f61c0f66dcef8f15deb7c8f4743c532b85.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\classes-fc5da9c26a23b37e8060f29e16b24068272c5ac2.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sa\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-android\2.4.0\f00bc767918ad9c89e5c13e25706d033a58e13c2\firebase-client-android-2.4.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="f00bc767918ad9c89e5c13e25706d033a58e13c2">
-        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\firebase-client-android-2.4.0-03c09dd82343bff9c5336b18548f7ade6ef67d15.jar" />
+        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
+        <dex dex="/Users/davidgreene/Desktop/FeedTheKittyFinal/CMSC436_FeedTheKitty/FeedTheKitty/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-bcba903549a63bd453e6c962b6701e7f1b5f5ce0.jar" />
     </item>
 
 </items>

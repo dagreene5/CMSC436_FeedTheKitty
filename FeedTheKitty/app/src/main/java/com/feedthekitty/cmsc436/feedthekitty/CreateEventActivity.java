@@ -35,7 +35,6 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
 
     private EditText eventName;
     private EditText location;
-    private CheckBox isPrivate;
     private EditText description;
     private EditText hashTag;
     private EditText moneyToRaise;
@@ -58,8 +57,6 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         eventName.setOnClickListener(this);
         location = (EditText) findViewById(R.id.location);
         location.setOnClickListener(this);
-        isPrivate = (CheckBox) findViewById(R.id.set_privacy);
-        isPrivate.setOnClickListener(this);
         description = (EditText) findViewById(R.id.description);
         description.setOnClickListener(this);
         hashTag = (EditText) findViewById(R.id.event_create_hashtags);
@@ -167,7 +164,6 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
             data.putExtra("eventStartTime", getEventTime.getText().toString());
             data.putExtra("eventEndTime", getEventEndTime.getText().toString());
             data.putExtra("location", location.getText().toString());
-            data.putExtra("isPrivate", isPrivate.isChecked());
             data.putExtra("description", description.getText().toString());
             data.putExtra("hashtag", hashTag.getText().toString());
             data.putExtra("amountNeeded", moneyToRaise.getText().toString());

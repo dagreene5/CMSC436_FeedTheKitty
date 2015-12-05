@@ -2,6 +2,7 @@ package com.feedthekitty.cmsc436.feedthekitty;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ public class EventLayout extends AppCompatActivity implements View.OnClickListen
     private String payAmount = "0"; //only need to change if events specify donate amount
 
     public static final int INVITE_LIST = 5;
+    public static final String TAG = "EventLayout";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +55,19 @@ public class EventLayout extends AppCompatActivity implements View.OnClickListen
          * Set variables to hold event data values
          */
         eventData = EventData.createFromIntent(getIntent());
+        Log.i(TAG, "Recovered EventData in EventLayout: " + eventData.toString());
 
         eventName = (TextView) findViewById(R.id.name);
-        eventName.setText( eventData.getTitle() );
+        eventName.setText(eventData.getTitle());
 
         image = (ImageView) findViewById(R.id.app_image);
-        image.setImageBitmap( FirebaseUtils.stringToBitmap(eventData.getEventImage()) );
+        image.setImageBitmap(FirebaseUtils.stringToBitmap(eventData.getEventImage()));
 
         moneyRaised = (TextView) findViewById(R.id.money_total);
-        moneyRaised.setText( eventData.getFunds() + "out of" + eventData.getAmountNeeded() );
+        moneyRaised.setText(eventData.getFunds() + "out of" + eventData.getAmountNeeded());
 
-        description = (TextView) findViewById(R.id.description);
+        Log.d(TAG, eventData.getDescription());
+        description = (TextView) findViewById(R.id.event_decription);
         description.setText( eventData.getDescription() );
 
         donate = (Button) findViewById(R.id.donation);

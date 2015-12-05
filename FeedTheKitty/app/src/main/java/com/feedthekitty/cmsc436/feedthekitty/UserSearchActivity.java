@@ -38,6 +38,7 @@ public class UserSearchActivity extends ListActivity {
 
     UserListAdapter adapter = null;
     Firebase database;
+    FirebaseUtils firebaseUtils;
     private ArrayList<String> invitedUsers = new ArrayList<String>();
 
     public static final Integer INVITE_LIST = 5;
@@ -50,12 +51,16 @@ public class UserSearchActivity extends ListActivity {
 
         setContentView(R.layout.activity_user_search);
         database = new Firebase(MainActivity.firebaseUrl);
+        firebaseUtils = FirebaseUtils.getInstance();
 
         // View initialization
         searchButton = (Button) findViewById(R.id.button_search);
         finishInvitingButton = (Button) findViewById(R.id.button_finish);
         searchText = (EditText) findViewById(R.id.text_user_search);
         listView = getListView();
+        adapter = new UserListAdapter(firebaseUtils.getAllUsers(), this);
+        setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,15 +71,11 @@ public class UserSearchActivity extends ListActivity {
                 // get new search string
                 String text = searchText.getText().toString();
 
-                if (adapter != null) {
-                    adapter.close();
+                if (text == null || text.equals("")) {
+                    adapter.resetList();
                 }
 
-                Query query = database.child(FirebaseUtils.userRoot);
-                adapter = new UserListAdapter(query, R.layout.user_search_row,
-                        UserSearchActivity.this, text);
-
-                setListAdapter(adapter);
+                adapter.filterByName(text);
             }
         });
 
@@ -96,15 +97,6 @@ public class UserSearchActivity extends ListActivity {
             }
 
         });
-
-        /* Initially display all users */
-        Query query = database.child(FirebaseUtils.userRoot);
-        adapter = new UserListAdapter(query, R.layout.user_search_row,
-                UserSearchActivity.this, null);
-
-        setListAdapter(adapter);
-
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

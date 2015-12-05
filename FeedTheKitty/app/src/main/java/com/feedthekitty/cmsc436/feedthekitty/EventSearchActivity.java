@@ -54,6 +54,7 @@ public class EventSearchActivity extends ListActivity {
         database = new Firebase(MainActivity.firebaseUrl);
 
         adapter = new EventListAdapter(firebaseUtils.getAllEvents(), this);
+        setListAdapter(adapter);
         adapter.notifyDataSetChanged();
 
         listView = getListView();
@@ -64,6 +65,7 @@ public class EventSearchActivity extends ListActivity {
                 final EventData data = (EventData) adapter.getItem(position);
 
                 if (data != null) {
+                    Log.d(TAG, data.getDescription());
                     Intent intent = data.packageIntoIntent();
                     intent.setClass(EventSearchActivity.this, EventLayout.class);
                     startActivity(intent);

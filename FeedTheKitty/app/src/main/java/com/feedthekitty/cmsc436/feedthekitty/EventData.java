@@ -26,6 +26,7 @@ public class EventData {
     private String hashtag;
     private String location;
     private String amountNeeded;
+    private String eventKey;
     //TODO
     private String eventStartTime;
     private String eventEndTime;
@@ -40,6 +41,14 @@ public class EventData {
     public EventData() {
         funds = 0;
         // other initialization here
+    }
+
+    public void setEventKey(String eventKey) {
+        this.eventKey = eventKey;
+    }
+
+    public String getEventKey() {
+        return eventKey;
     }
 
     public void setStackId(long stackId) {
@@ -156,6 +165,7 @@ public class EventData {
     public Intent packageIntoIntent() {
         Intent intent = new Intent();
 
+        intent.putExtra("eventKey", eventKey);
         intent.putExtra("title", title);
         intent.putExtra("hashtag", hashtag);
         intent.putExtra("description", description);
@@ -190,33 +200,12 @@ public class EventData {
         return data;
     }
 
-    @SuppressWarnings("unchecked")
-    public static EventData createFromDataSnapshot(Long stackId, DataSnapshot dataSnapshot) {
-
-        EventData eventData = new EventData();
-        eventData.setStackId(stackId);
-        eventData.setTitle((String) dataSnapshot.child("title").getValue());
-        eventData.setHashtag((String) dataSnapshot.child("hashtag").getValue());
-        eventData.setDescription((String) dataSnapshot.child("description").getValue());
-        eventData.setEventEndDate((String) dataSnapshot.child("eventEndDate").getValue());
-        eventData.setEventStartDate((String) dataSnapshot.child("eventStartDate").getValue());
-        eventData.setEventEndTime((String) dataSnapshot.child("eventEndTime").getValue());
-        eventData.setEventStartTime((String) dataSnapshot.child("eventStartTime").getValue());
-        eventData.setLocation((String) dataSnapshot.child("location").getValue());
-        eventData.setAmountNeeded((String) dataSnapshot.child("amountNeeded").getValue());
-        eventData.setPeopleInvited((ArrayList<CharSequence>) dataSnapshot.child("peopleInvited")
-                .getValue());
-        eventData.setPeopleAttending((ArrayList<CharSequence>) dataSnapshot.child("peopleAttending")
-                .getValue());
-
-        return eventData;
-    }
-
     public static EventData createFromIntent(Intent intent) {
 
         Bundle extras = intent.getExtras();
         EventData eventData = new EventData();
 
+        eventData.setEventKey(extras.getString("eventKey"));
         eventData.setTitle(extras.getString("title"));
         eventData.setHashtag(extras.getString("hashtag"));
         eventData.setDescription(extras.getString("description"));

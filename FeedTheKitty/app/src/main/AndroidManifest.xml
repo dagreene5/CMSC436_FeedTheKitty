@@ -38,6 +38,10 @@
             android:label="testCreateEventActivity">
         </activity>
         <activity
+            android:name=".EventLayout"
+            android:label="eventLayout">
+        </activity>
+        <activity
             android:name=".EventSearchActivity"
             android:label="eventSearchActivity">
         </activity>
