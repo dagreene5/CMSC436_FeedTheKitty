@@ -65,9 +65,11 @@ public class EventListAdapter extends BaseAdapter {
 
         TextView title = (TextView) view.findViewById(R.id.text_event_title);
         TextView hashtag = (TextView) view.findViewById(R.id.text_event_hashtag);
+        TextView description = (TextView) view.findViewById(R.id.event_decription);
 
         title.setText(data.getTitle());
         hashtag.setText(data.getHashtag());
+        description.setText(data.getDescription());
     }
 
     @Override

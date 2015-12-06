@@ -66,7 +66,7 @@ public class FirebaseUtils {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "on child removed call for userListener");
-                eventDataMap.remove((String) dataSnapshot.getValue());
+                eventDataMap.remove(dataSnapshot.getKey());
             }
 
             @Override
@@ -101,7 +101,7 @@ public class FirebaseUtils {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "on child removed call for eventListener");
-                eventDataMap.remove((Long) dataSnapshot.getValue());
+                eventDataMap.remove(dataSnapshot.getKey());
             }
 
             @Override
@@ -127,7 +127,6 @@ public class FirebaseUtils {
         return eventDataMap.get(eventId);
     }
 
-    //TODO make sure Listeners are picking this up
     public void storeUserData(UserData userData) {
         userList.child(userData.getUserId()).setValue(userData.packageIntoMap());
     }
@@ -140,36 +139,30 @@ public class FirebaseUtils {
         eventList.child(String.valueOf(event.getStackId())).setValue(event.packageIntoMap());
     }
 
-    //TODO
-    public static Bitmap stringToBitmap(String image) {
-        return null;
+    public void addUserToEvent(String personId, String eventId) {
+        UserData userData = fetchUserData(personId);
+        EventData eventData = fetchEventData(eventId);
+        userData.setAttendingEvent(eventId);
+        eventData.addPersonAttending(personId);
+
+        updateEventData(eventData);
+        storeUserData(userData);
     }
 
-    public void inviteToEvent(String personId, Long eventId) {
-        eventList.child(eventId.toString()).child("peopleInvited").push().setValue(personId);
-        userList.child(personId).child("eventsInvitedTo").push().setValue(eventId);
+    public void removeUserFromEvent(String personId, String eventId) {
+        UserData userData = fetchUserData(personId);
+        EventData eventData = fetchEventData(eventId);
+        userData.removeEventFromAttending(eventId);
+        eventData.removePersonAttending(personId);
+
+        updateEventData(eventData);
+        storeUserData(userData);
     }
 
-    public void acceptInviteToEvent(String personId, Long eventId) {
-        eventList.child(eventId.toString()).child("peopleInvited").child(personId).removeValue();
-        eventList.child(eventId.toString()).child("peopleAttending").push().setValue(personId);
-        userList.child(personId).child("eventsInvitedTo").child(eventId.toString()).removeValue();
-    }
-
-    public void addFundsToEvent(final String eventId, final Integer amount) {
-        Query query = eventList.child(eventId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-             @Override
-             public void onDataChange(DataSnapshot dataSnapshot) {
-                 int prevFunds = (Integer) dataSnapshot.child("funds").getValue();
-                 eventList.child(eventId).child("funds").setValue(prevFunds + amount);
-             }
-
-             @Override
-             public void onCancelled(FirebaseError firebaseError) {
-
-             }
-        });
+    public void addFundsToEvent(String eventId, final Integer amount) {
+        EventData eventData = fetchEventData(eventId);
+        eventData.addFunds(amount);
+        updateEventData(eventData);
     }
 
     public static synchronized FirebaseUtils getInstance() {

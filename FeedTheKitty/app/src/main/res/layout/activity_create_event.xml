@@ -200,5 +200,15 @@
             android:text="Create Event"
             android:layout_centerInParent="true"/>
 
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/venmoName"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/defaultContribution"/>
+
     </RelativeLayout>
 </ScrollView>

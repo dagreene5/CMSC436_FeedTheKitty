@@ -1,5 +1,6 @@
 package com.feedthekitty.cmsc436.feedthekitty;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,31 +12,39 @@ import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends ListActivity {
 
     public static String firebaseURLKey = "f";
     public static String firebaseUrl = "https://amber-torch-7320.firebaseio.com/";
     public static final Integer REQUEST_LOGIN = 5;
     static private final int GET_EVENT_REQUEST_CODE = 1;
     public static final String TAG = "MainActivity";
+    public static final String UID_KEY = "uidk";
     Button browseBtn, createBtn;
     Firebase database;
     FirebaseUtils firebaseUtils;
+    EventListAdapter eventListAdapter;
+    private ListView listView;
 
     public ListView userList;
 
-    private String uid;
+    public static String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestLogin();
 
         Firebase.setAndroidContext(this);
 
@@ -64,39 +73,56 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
+                intent.putExtra(UID_KEY, uid);
                 startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
             }
         });
 
+        listView = getListView();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final EventData data = (EventData) eventListAdapter.getItem(position);
+
+                if (data != null) {
+                    Intent intent = data.packageIntoIntent();
+                    intent.setClass(MainActivity.this, EventLayout.class);
+                    startActivity(intent);
+                }
+            }
+        });
         displayUserData();
 
-
-
-        // Test Storing data
-        /*
-        Intent intent = new Intent(this, TestCreateEventActivity.class);
-        startActivity(intent);
-        */
-
-        // Test Searching for list of events
-        /*
-        Intent intent = new Intent(this, EventSearchActivity.class);
-        startActivity(intent);
-         */
-
-        // TODO get this working
-        //requestLogin();
-        uid = "testUID";
     }
 
     private void displayUserData() {
-        //TODO
+        if (uid != null) {
+            UserData userData = firebaseUtils.fetchUserData(uid);
+            ArrayList<CharSequence> eventKeys = userData.getEventsAttending();
+            ArrayList<EventData> events = new ArrayList<EventData>();
+
+            for (CharSequence key : eventKeys) {
+                events.add(firebaseUtils.fetchEventData(key.toString()));
+            }
+
+            eventListAdapter = new EventListAdapter(events, this);
+            setListAdapter(eventListAdapter);
+            eventListAdapter.notifyDataSetChanged();
+        }
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayUserData();
+    }
     private void requestLogin() {
-        Intent intent = new Intent(this, FacebookActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
+        if (uid == null) {
+            Intent intent = new Intent(this, FacebookActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
+        }
     }
 
     @Override

@@ -22,10 +22,25 @@ import java.util.Locale;
  * Created by Sara Leroy on 12/3/2015.
  */
 public class CreateEventActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //TODO Sara:
+    /*
+        I sloppily added the venmoName and defaultContribution EditTexts, can you make
+        those look good?
+
+        Also, if any fields are not initialized, can you do some kind of toast message
+        that they must be completed and refuse to create the event? We can't have any
+        null fields. I added EventData.isValid that you can call after the event is
+        created on the button click.
+
+     */
     private EditText getEventTime;
     private EditText getEventDate;
     private EditText getEventEndDate;
     private EditText getEventEndTime;
+
+    private EditText defaultContribution;
+    private EditText venmoName;
 
     private DatePickerDialog eventDate;
     private DatePickerDialog eventEndDate;
@@ -39,17 +54,21 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     private EditText hashTag;
     private EditText moneyToRaise;
 
+    private String uid;
+
     private Button createEvent;
     SimpleDateFormat simpleDateFormat;
     DateFormat simpleTimeFormat;
 
-    Intent data = new Intent();
     Calendar calendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+        uid = (String) getIntent().getExtras().get(MainActivity.UID_KEY);
+        venmoName = (EditText) findViewById(R.id.venmoName);
+        defaultContribution = (EditText) findViewById(R.id.defaultContribution);
         createEvent = (Button) findViewById(R.id.done);
         createEvent.setOnClickListener(this);
         /** Initialize input fileds */
@@ -158,16 +177,25 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         } else if (view == hashTag) {
             data.putExtra("hashtag", hashTag.getText());*/
         } else if (view == createEvent) {
-            this.setResult(RESULT_OK, data);
-            data.putExtra("eventStartDate", getEventDate.getText().toString());
-            data.putExtra("eventEndDate", getEventEndDate.getText().toString());
-            data.putExtra("eventStartTime", getEventTime.getText().toString());
-            data.putExtra("eventEndTime", getEventEndTime.getText().toString());
-            data.putExtra("location", location.getText().toString());
-            data.putExtra("description", description.getText().toString());
-            data.putExtra("hashtag", hashTag.getText().toString());
-            data.putExtra("amountNeeded", moneyToRaise.getText().toString());
-            // /finish activity
+
+            EventData eventData = new EventData();
+            eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
+                    .toString()));
+
+            eventData.setEventStartDate(getEventDate.getText().toString());
+            eventData.setEventEndDate(getEventEndDate.getText().toString());
+            eventData.setEventStartTime(getEventTime.getText().toString());
+            eventData.setEventEndTime(getEventEndTime.getText().toString());
+            eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
+                    .toString()));
+            eventData.setVenmoName(venmoName.getText().toString());
+            eventData.setTitle(eventName.getText().toString());
+            eventData.setHashtag(hashTag.getText().toString());
+            eventData.setAmountNeeded(moneyToRaise.getText().toString());
+            eventData.addPersonAttending(uid);
+
+            this.setResult(RESULT_OK, eventData.packageIntoIntent());
+
             finish();
         }
 

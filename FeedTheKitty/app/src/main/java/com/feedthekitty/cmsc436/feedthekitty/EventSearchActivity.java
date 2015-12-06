@@ -95,6 +95,12 @@ public class EventSearchActivity extends ListActivity {
             }
         });
 
+        // Default search by title
+        if (!radioButtonTitle.isActivated()) {
+            radioButtonTitle.toggle();
+            checkTitle = true; // just in case listener doesn't catch manual change
+        }
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

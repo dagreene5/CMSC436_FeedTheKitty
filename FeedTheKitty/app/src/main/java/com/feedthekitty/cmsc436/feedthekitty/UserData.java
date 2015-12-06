@@ -17,7 +17,6 @@ public class UserData {
     String userId;
     String fullName;
     ArrayList<CharSequence> eventsAttending;
-    ArrayList<CharSequence> eventsInvitedTo;
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -43,21 +42,12 @@ public class UserData {
         return eventsAttending;
     }
 
-    public void setEventsInvitedTo(ArrayList<CharSequence> eventsInvitedTo) {
-        this.eventsInvitedTo = eventsInvitedTo;
-    }
-
-    public ArrayList<CharSequence> getEventsInvitedTo() {
-        return eventsInvitedTo;
-    }
-
     public Intent packageIntoIntent() {
         Intent intent = new Intent();
 
         intent.putExtra("userId", userId);
         intent.putExtra("fullName", fullName);
         intent.putCharSequenceArrayListExtra("eventsAttending", eventsAttending);
-        intent.putCharSequenceArrayListExtra("eventsInvitedTo", eventsInvitedTo);
 
         return intent;
     }
@@ -70,26 +60,14 @@ public class UserData {
         userData.setUserId(extras.getString("userId"));
         userData.setFullName(extras.getString("fullName"));
         userData.setEventsAttending(extras.getCharSequenceArrayList("eventsAttending"));
-        userData.setEventsInvitedTo(extras.getCharSequenceArrayList("eventsInvitedTo"));
 
         return userData;
     }
 
-    public void addEventInvited(String eventId) {
-        if (!eventsInvitedTo.contains(eventId)) {
-            eventsInvitedTo.add(eventId);
-        }
-    }
-
-    public void acceptInvite(String eventId) {
-        if (eventsInvitedTo.contains(eventId)) {
-            eventsInvitedTo.remove(eventId);
+    public void setAttendingEvent(String eventId) {
+        if (!eventsAttending.contains(eventId)) {
             eventsAttending.add(eventId);
         }
-    }
-
-    public void declineInvite(String eventId) {
-        eventsInvitedTo.remove(eventId);
     }
 
     public void removeEventFromAttending(String eventId) {
@@ -101,7 +79,6 @@ public class UserData {
 
         data.put("fullName", fullName);
         data.put("eventsAttending", eventsAttending);
-        data.put("eventsInvitedTo", eventsInvitedTo);
 
         return data;
     }
@@ -114,8 +91,6 @@ public class UserData {
         userData.setUserId(uid);
         userData.setFullName((String) dataSnapshot.child("fullName").getValue());
         userData.setEventsAttending((ArrayList<CharSequence>) dataSnapshot.child("eventsAttending")
-                .getValue());
-        userData.setEventsInvitedTo((ArrayList<CharSequence>) dataSnapshot.child("eventsInvitedTo")
                 .getValue());
 
         return userData;
