@@ -13,6 +13,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
@@ -97,12 +98,16 @@ public class FacebookActivity extends Activity {
     }
 
     public void returnUserData(AccessToken accessToken) {
-
         UserData userData = new UserData();
         userData.setUserId(accessToken.getUserId());
 
         //TODO get fullName = first + " " + last
-        userData.setFullName(null);
+        Profile profile = Profile.getCurrentProfile();
+        String firstName = profile.getFirstName();
+        String lastName = profile.getLastName();
+        System.out.println(firstName + " " + lastName); //tested working
+
+        userData.setFullName(firstName + " " + lastName);
         Intent intent = userData.packageIntoIntent();
         setResult(RESULT_OK, intent);
 
