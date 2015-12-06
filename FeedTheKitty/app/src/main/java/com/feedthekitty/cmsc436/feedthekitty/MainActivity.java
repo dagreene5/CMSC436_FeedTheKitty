@@ -45,28 +45,28 @@ public class MainActivity extends AppCompatActivity {
         firebaseUtils = FirebaseUtils.getInstance();
 
         //If logged in via FB
-        setContentView(R.layout.homeview);
-
-        browseBtn = (Button) findViewById(R.id.browse_btn);
-        createBtn = (Button) findViewById(R.id.create_btn);
-
-        browseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent intent = new Intent(MainActivity.this, browse.class);
-                // startActivity(intent);
-                Intent intent = new Intent(MainActivity.this, EventLayout.class);
-                startActivity(intent);
-            }
-        });
-
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
-            }
-        });
+        //setContentView(R.layout.homeview);
+        
+//        browseBtn = (Button) findViewById(R.id.browse_btn);
+//        createBtn = (Button) findViewById(R.id.create_btn);
+//
+//        browseBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Intent intent = new Intent(MainActivity.this, browse.class);
+//                // startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, EventLayout.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        createBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
+//                startActivityForResult(intent, GET_EVENT_REQUEST_CODE);
+//            }
+//        });
 
         displayUserData();
 

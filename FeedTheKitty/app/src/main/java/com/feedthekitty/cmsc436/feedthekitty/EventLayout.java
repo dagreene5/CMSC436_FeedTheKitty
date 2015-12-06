@@ -54,30 +54,30 @@ public class EventLayout extends AppCompatActivity implements View.OnClickListen
         /* Todo Link Each EventData object with this
          * Set variables to hold event data values
          */
-        eventData = EventData.createFromIntent(getIntent());
-        Log.i(TAG, "Recovered EventData in EventLayout: " + eventData.toString());
-
-        eventName = (TextView) findViewById(R.id.name);
-        eventName.setText(eventData.getTitle());
-
-        image = (ImageView) findViewById(R.id.app_image);
-        image.setImageBitmap(FirebaseUtils.stringToBitmap(eventData.getEventImage()));
-
-        moneyRaised = (TextView) findViewById(R.id.money_total);
-        moneyRaised.setText(eventData.getFunds() + "out of" + eventData.getAmountNeeded());
-
-        Log.d(TAG, eventData.getDescription());
-        description = (TextView) findViewById(R.id.event_decription);
-        description.setText( eventData.getDescription() );
-
+//        eventData = EventData.createFromIntent(getIntent());
+//        Log.i(TAG, "Recovered EventData in EventLayout: " + eventData.toString());
+//
+//        eventName = (TextView) findViewById(R.id.name);
+//        eventName.setText(eventData.getTitle());
+//
+//        image = (ImageView) findViewById(R.id.app_image);
+//        image.setImageBitmap(FirebaseUtils.stringToBitmap(eventData.getEventImage()));
+//
+//        moneyRaised = (TextView) findViewById(R.id.money_total);
+//        moneyRaised.setText(eventData.getFunds() + "out of" + eventData.getAmountNeeded());
+//
+//        Log.d(TAG, eventData.getDescription());
+//        description = (TextView) findViewById(R.id.event_decription);
+//        description.setText( eventData.getDescription() );
+//
         donate = (Button) findViewById(R.id.donation);
         donate.setOnClickListener(this);
-
-        inviteUsers = (Button) findViewById(R.id.inviteUsers);
-        inviteUsers.setOnClickListener(this);
-
-        location = (TextView) findViewById(R.id.event_location);
-        location.setText( eventData.getLocation() );
+//
+//        inviteUsers = (Button) findViewById(R.id.inviteUsers);
+//        inviteUsers.setOnClickListener(this);
+//
+//        location = (TextView) findViewById(R.id.event_location);
+//        location.setText( eventData.getLocation() );
     }
 
     @Override
