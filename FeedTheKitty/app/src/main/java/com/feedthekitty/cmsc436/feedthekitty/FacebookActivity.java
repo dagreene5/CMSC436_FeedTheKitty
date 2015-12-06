@@ -55,12 +55,10 @@ public class FacebookActivity extends Activity {
                 Log.i(TAG, "Access token: " + loginResult.getAccessToken());
 
                 Intent resultIntent = new Intent();
-                String uid = loginResult.getAccessToken().getUserId();
+                AccessToken accessToken = loginResult.getAccessToken();
 
-                if (uid != null) {
-                    resultIntent.putExtra(AUTH_ID, uid);
-                    FacebookActivity.this.setResult(RESULT_OK, resultIntent);
-                    FacebookActivity.this.finish();
+                if (accessToken != null) {
+                    returnUserData(accessToken);
                 } else {
                     FacebookActivity.this.setResult(RESULT_ERROR);
                     FacebookActivity.this.finish();
@@ -86,6 +84,35 @@ public class FacebookActivity extends Activity {
             }
         });
 
+
+        // if already logged in, just send back uid
+        if (isLoggedIn()) {
+            Intent resultIntent = new Intent();
+            AccessToken currAccessToken = AccessToken.getCurrentAccessToken();
+
+            if (currAccessToken != null) {
+                returnUserData(AccessToken.getCurrentAccessToken());
+            }
+        }
+    }
+
+    public void returnUserData(AccessToken accessToken) {
+
+        UserData userData = new UserData();
+        userData.setUserId(accessToken.getUserId());
+
+        //TODO get fullName = first + " " + last
+        userData.setFullName(null);
+        Intent intent = userData.packageIntoIntent();
+        setResult(RESULT_OK, intent);
+
+        finish();
+    }
+
+    private boolean isLoggedIn() {
+        Log.i(TAG, "Checking if already logged in");
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 
     @Override

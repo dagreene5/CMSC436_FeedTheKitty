@@ -2,7 +2,6 @@ package com.feedthekitty.cmsc436.feedthekitty;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.Query;
 
 import java.util.ArrayList;
 
@@ -44,14 +42,12 @@ public class MainActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestLogin();
-
         Firebase.setAndroidContext(this);
-
         database = new Firebase(MainActivity.firebaseUrl);
-
         // Grab reference to FirebaseUtils to store data
         firebaseUtils = FirebaseUtils.getInstance();
+
+        requestLogin();
 
         //If logged in via FB
         setContentView(R.layout.homeview);
@@ -64,7 +60,7 @@ public class MainActivity extends ListActivity {
             public void onClick(View v) {
                 // Intent intent = new Intent(MainActivity.this, browse.class);
                 // startActivity(intent);
-                Intent intent = new Intent(MainActivity.this, EventLayout.class);
+                Intent intent = new Intent(MainActivity.this, EventSearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -98,6 +94,7 @@ public class MainActivity extends ListActivity {
 
     private void displayUserData() {
         if (uid != null) {
+            Log.i(TAG, "populating event list on home view");
             UserData userData = firebaseUtils.fetchUserData(uid);
             ArrayList<CharSequence> eventKeys = userData.getEventsAttending();
             ArrayList<EventData> events = new ArrayList<EventData>();
@@ -132,8 +129,10 @@ public class MainActivity extends ListActivity {
 
             if (resultCode == RESULT_OK) {
 
-                uid = data.getExtras().getString(FacebookActivity.AUTH_ID);
-                Log.i(TAG, "AUTH_ID passed back to main activity: " + uid);
+                UserData userData = UserData.createFromIntent(data);
+                uid = userData.getUserId();
+
+                firebaseUtils.addUserDataIfNew(userData);
 
             } else if (resultCode == RESULT_CANCELED ||
                     resultCode == FacebookActivity.RESULT_ERROR) {
@@ -147,7 +146,9 @@ public class MainActivity extends ListActivity {
 
             if (resultCode == RESULT_OK) {
                 EventData eventData = EventData.createFromIntent(data);
+
                 firebaseUtils.createEventData(eventData);
+                firebaseUtils.addUserToEvent(uid, eventData.getEventKey());
             }
         }
 

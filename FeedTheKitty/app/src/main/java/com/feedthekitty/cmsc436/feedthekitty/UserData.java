@@ -18,6 +18,11 @@ public class UserData {
     String fullName;
     ArrayList<CharSequence> eventsAttending;
 
+    public UserData() {
+        eventsAttending = new ArrayList<CharSequence>();
+        fullName = "name not set";
+    }
+
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -27,7 +32,9 @@ public class UserData {
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        if (fullName != null) {
+            this.fullName = fullName;
+        }
     }
 
     public String getFullName() {
@@ -78,7 +85,9 @@ public class UserData {
         HashMap<String, Object> data = new HashMap<String, Object>();
 
         data.put("fullName", fullName);
-        data.put("eventsAttending", eventsAttending);
+        if (eventsAttending.size() != 0) {
+            data.put("eventsAttending", eventsAttending);
+        }
 
         return data;
     }
@@ -97,7 +106,7 @@ public class UserData {
     }
 
     public String toString() {
-        return "UserData: uid: " + userId + ", fullName: " + fullName;
+        return packageIntoMap().toString();
     }
 
 

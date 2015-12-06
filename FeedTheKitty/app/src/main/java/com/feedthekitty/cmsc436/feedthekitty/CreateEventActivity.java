@@ -192,7 +192,8 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
             eventData.setTitle(eventName.getText().toString());
             eventData.setHashtag(hashTag.getText().toString());
             eventData.setAmountNeeded(moneyToRaise.getText().toString());
-            eventData.addPersonAttending(uid);
+            eventData.setDescription(description.getText().toString());
+            eventData.setLocation(location.getText().toString());
 
             this.setResult(RESULT_OK, eventData.packageIntoIntent());
 

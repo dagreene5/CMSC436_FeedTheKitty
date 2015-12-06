@@ -40,7 +40,7 @@ public class EventListAdapter extends BaseAdapter {
     public void filterByHashtag(String hashtag) {
         ArrayList<EventData> newList = new ArrayList<EventData>();
 
-        for (EventData data : listItems) {
+        for (EventData data : originalList) {
             if (data.getHashtag().toLowerCase().contains(hashtag.toLowerCase())) {
                 newList.add(data);
             }
@@ -52,7 +52,7 @@ public class EventListAdapter extends BaseAdapter {
     public void filterByTitle(String title) {
         ArrayList<EventData> newList = new ArrayList<EventData>();
 
-        for (EventData data : listItems) {
+        for (EventData data : originalList) {
             if (data.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 newList.add(data);
             }
@@ -65,7 +65,7 @@ public class EventListAdapter extends BaseAdapter {
 
         TextView title = (TextView) view.findViewById(R.id.text_event_title);
         TextView hashtag = (TextView) view.findViewById(R.id.text_event_hashtag);
-        TextView description = (TextView) view.findViewById(R.id.event_decription);
+        TextView description = (TextView) view.findViewById(R.id.text_description);
 
         title.setText(data.getTitle());
         hashtag.setText(data.getHashtag());

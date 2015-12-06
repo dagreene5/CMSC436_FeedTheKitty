@@ -100,7 +100,7 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
         location.setText(eventData.getLocation());
 
         defaultContribution = (TextView) findViewById(R.id.event_layout_default_contribution);
-        defaultContribution.setText(eventData.getDefaultContribution());
+        defaultContribution.setText(eventData.getDefaultContribution().toString());
 
 
 
@@ -116,7 +116,7 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
             attendEvent.setText("Attend Event");
         }
 
-        location = (TextView) findViewById(R.id.event_location);
+        location = (TextView) findViewById(R.id.event_layout_location);
         location.setText( eventData.getLocation() );
 
         displayPeopleAttending();
@@ -132,6 +132,7 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
     }
 
     private void displayPeopleAttending() {
+        eventData = firebaseUtils.fetchEventData(eventData.getEventKey());
         ArrayList<CharSequence> peopleKeys = eventData.getPeopleAttending();
         ArrayList<UserData> people = new ArrayList<UserData>();
 
@@ -170,6 +171,8 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
                 attendingEvent = true;
                 attendEvent.setText("Remove Me From Event");
             }
+
+            displayPeopleAttending();
         }
     }
 

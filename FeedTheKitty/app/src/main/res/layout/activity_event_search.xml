@@ -29,27 +29,12 @@
             android:id="@+id/radioButton_search_hashtag"/>
     </RadioGroup>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:id="@+id/button_search"
-            android:gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show All Events (for testing)"
-            android:id="@+id/button_show_all"
-            android:gravity="center_horizontal" />
-
-    </LinearLayout>
-
+        android:text="Search"
+        android:id="@+id/button_search"
+        android:gravity="center" />
 
     <ListView
         android:orientation="vertical"

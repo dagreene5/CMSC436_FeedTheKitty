@@ -3,16 +3,11 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/image_user"
-        android:src="@drawable/ic_icon"/>
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:text="User name not set"
         android:id="@+id/text_full_name"
-        android:gravity="center_vertical"/>
+        android:gravity="center"/>
 
 </LinearLayout>
