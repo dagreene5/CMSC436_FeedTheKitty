@@ -13,7 +13,7 @@
     <string name="set_privacy">Private</string>
     <string name="Description">Description</string>
     <string name="event_post_deadline_date">Stop showing event on</string>
-    <string name="event_create_hashtags">Hashtag</string>
+    <string name="event_create_hashtags">Hashtag: </string>
     <string name="donate">DONATE</string>
     <string name="inviteUsers">Invite to event</string>
 

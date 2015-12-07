@@ -46,7 +46,8 @@
             android:label="eventSearchActivity">
         </activity>
         <activity android:name=".CreateEventActivity"
-            android:label="New Event">
+            android:label="New Event"
+            android:theme="@style/Theme.AppCompat.Light">
         </activity>
         <activity
             android:name=".FacebookActivity"

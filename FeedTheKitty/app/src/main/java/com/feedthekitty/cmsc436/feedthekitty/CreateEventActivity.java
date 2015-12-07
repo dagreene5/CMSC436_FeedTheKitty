@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,17 +24,6 @@ import java.util.Locale;
  */
 public class CreateEventActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //TODO Sara:
-    /*
-        I sloppily added the venmoName and defaultContribution EditTexts, can you make
-        those look good?
-
-        Also, if any fields are not initialized, can you do some kind of toast message
-        that they must be completed and refuse to create the event? We can't have any
-        null fields. I added EventData.isValid that you can call after the event is
-        created on the button click.
-
-     */
     private EditText getEventTime;
     private EditText getEventDate;
     private EditText getEventEndDate;
@@ -156,48 +146,39 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         if (view == getEventDate) {
             eventDate.show();
-            //data.putExtra("eventStartDate", getEventDate.getText());
         } else if (view == getEventEndDate) {
             eventEndDate.show();
-            //data.putExtra("eventEndDate", getEventEndDate.getText());
         } else if (view == getEventTime) {
             eventTime.show();
-            //data.putExtra("eventStartTime", getEventTime.getText());
         } else if (view == getEventEndTime) {
             eventEndTime.show();
-            //data.putExtra("eventEndTime", getEventEndTime.getText());
-        /*} else if (view == eventName) {
-            data.putExtra("eventName", eventName.getText());
-        } else if (view == location) {
-            data.putExtra("location", location.getText());
-        } else if (view == isPrivate) {
-            data.putExtra("isPrivate", isPrivate.isChecked());
-        } else if (view == description) {
-            data.putExtra("description", description.getText());
-        } else if (view == hashTag) {
-            data.putExtra("hashtag", hashTag.getText());*/
         } else if (view == createEvent) {
 
             EventData eventData = new EventData();
-            eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
-                    .toString()));
 
-            eventData.setEventStartDate(getEventDate.getText().toString());
-            eventData.setEventEndDate(getEventEndDate.getText().toString());
-            eventData.setEventStartTime(getEventTime.getText().toString());
-            eventData.setEventEndTime(getEventEndTime.getText().toString());
-            eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
-                    .toString()));
-            eventData.setVenmoName(venmoName.getText().toString());
-            eventData.setTitle(eventName.getText().toString());
-            eventData.setHashtag(hashTag.getText().toString());
-            eventData.setAmountNeeded(moneyToRaise.getText().toString());
-            eventData.setDescription(description.getText().toString());
-            eventData.setLocation(location.getText().toString());
+            if (eventData.isValid() == false) {
+                Toast.makeText(getApplicationContext(), "All fields must be initialized with valid inputs",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
+                        .toString()));
+                eventData.setEventStartDate(getEventDate.getText().toString());
+                eventData.setEventEndDate(getEventEndDate.getText().toString());
+                eventData.setEventStartTime(getEventTime.getText().toString());
+                eventData.setEventEndTime(getEventEndTime.getText().toString());
+                eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
+                        .toString()));
+                eventData.setVenmoName(venmoName.getText().toString());
+                eventData.setTitle(eventName.getText().toString());
+                eventData.setHashtag(hashTag.getText().toString());
+                eventData.setAmountNeeded(moneyToRaise.getText().toString());
+                eventData.setDescription(description.getText().toString());
+                eventData.setLocation(location.getText().toString());
 
-            this.setResult(RESULT_OK, eventData.packageIntoIntent());
+                this.setResult(RESULT_OK, eventData.packageIntoIntent());
 
-            finish();
+                finish();
+            }
         }
 
     }
