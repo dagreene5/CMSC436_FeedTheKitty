@@ -28,20 +28,13 @@ import java.util.ArrayList;
  */
 public class EventLayout extends ListActivity implements View.OnClickListener {
 
-    //TODO Sara:
-    /*
-        Please add Event start date and end date as well. The data is available
-        in the EventData object.
-
-        Can you also try to make this look good like the CreateEventActivity?
-        I threw everything together just to make sure it's all functional.
-     */
-
     TextView eventName;
     TextView eventHashtag;
-    TextView funds;
+    TextView eventStartDate;
+    TextView eventEndDate;
+    TextView funds;//how much has been raised so far
     TextView description;
-    TextView amountNeeded;
+    TextView amountNeeded; //how much is needed in total
     TextView eventStartTime;
     TextView eventEndTime;
     TextView defaultContribution;
@@ -66,9 +59,6 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_layout);
 
-        /* Todo Link Each EventData object with this
-         * Set variables to hold event data values
-         */
         eventData = EventData.createFromIntent(getIntent());
 
         // check if already attending. Only changes the text of the
@@ -93,11 +83,17 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
         amountNeeded = (TextView) findViewById(R.id.event_layout_amount_needed);
         amountNeeded.setText(eventData.getAmountNeeded());
 
-        eventStartTime = (TextView) findViewById(R.id.event_layout_start_time);
+        eventStartTime = (TextView) findViewById(R.id.event_start_time);
         eventStartTime.setText(eventData.getEventStartTime());
 
-        eventEndTime = (TextView) findViewById(R.id.event_layout_end_time);
+        eventEndTime = (TextView) findViewById(R.id.event_end_time);
         eventEndTime.setText(eventData.getEventEndTime());
+
+        eventStartDate = (TextView) findViewById(R.id.event_start_date);
+        eventStartDate.setText(eventData.getEventStartDate());
+
+        eventEndDate = (TextView) findViewById(R.id.event_end_date);
+        eventEndDate.setText(eventData.getEventEndDate());
 
         location = (TextView) findViewById(R.id.event_layout_location);
         location.setText(eventData.getLocation());

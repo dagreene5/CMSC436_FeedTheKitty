@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/Lee/Dropbox/workspace/cmsc436/CMSC436_FeedTheKitty/FeedTheKitty/app/libs/json-simple-1.1.1.jar"
+        jar="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\libs\json-simple-1.1.1.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
-        <dex dex="/Users/Lee/Dropbox/workspace/cmsc436/CMSC436_FeedTheKitty/FeedTheKitty/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-a33ae455619e7117c0a6bab3744d70e1aa41f442.jar" />
+        <dex dex="C:\Users\Sa\Documents\GitHub\CMSC436_FeedTheKitty\FeedTheKitty\app\build\intermediates\pre-dexed\debug\json-simple-1.1.1-0df9639c82d46cdbe5548105d6cec9e16f90e1c5.jar" />
     </item>
 
 </items>

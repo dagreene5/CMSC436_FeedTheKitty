@@ -24,15 +24,15 @@ public class EventData {
     private String title;
     private String hashtag;
     private String location;
-    private String amountNeeded;
+    private String amountNeeded; //how much is needed in total
     private String eventKey;
-    //TODO
+
     private String eventStartTime;
     private String eventEndTime;
     private String eventStartDate;
     private String eventEndDate;
     private Long stackId;
-    private Integer funds;
+    private Integer funds; //how much has been raised so far
     private Integer defaultContribution;
     private String venmoName;
     private String description;
@@ -236,11 +236,12 @@ public class EventData {
 
     public boolean isValid() {
 
+        // validIntField(funds) removed since never passed in bundle as an extra
         return validStringField(title) && validStringField(location)
                 && validStringField(amountNeeded) && validStringField(eventKey) &&
                 validStringField(eventStartTime) && validStringField(eventEndTime) &&
-                validStringField(eventStartDate) && validStringField(eventEndDate) &&
-                validIntField(funds) && validIntField(defaultContribution) &&
+                validStringField(eventStartDate) && validStringField(eventEndDate)
+                && validIntField(defaultContribution) &&
                 validStringField(venmoName) && validStringField(description);
     }
 
