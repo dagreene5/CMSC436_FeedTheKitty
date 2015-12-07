@@ -101,8 +101,6 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
         defaultContribution = (TextView) findViewById(R.id.event_layout_default_contribution);
         defaultContribution.setText(eventData.getDefaultContribution().toString());
 
-
-
         donate = (Button) findViewById(R.id.donation);
         donate.setOnClickListener(this);
 
@@ -148,7 +146,7 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
     public void onClick(View view) {
         if (view == donate) {
             if (VenmoLibrary.isVenmoInstalled(getApplicationContext()) == true ) {
-                String message = "For event: " + eventName;
+                String message = "For event: " + eventData.getTitle();
                 Intent venmoIntent = VenmoLibrary.openVenmoPayment(APP_ID,
                         APP_NAME, eventData.getVenmoName(),
                         eventData.getDefaultContribution().toString(), message, "pay");
