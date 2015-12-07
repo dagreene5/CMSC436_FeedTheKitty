@@ -56,7 +56,6 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
-        uid = (String) getIntent().getExtras().get(MainActivity.UID_KEY);
         venmoName = (EditText) findViewById(R.id.venmoName);
         defaultContribution = (EditText) findViewById(R.id.defaultContribution);
         createEvent = (Button) findViewById(R.id.done);
@@ -155,13 +154,26 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         } else if (view == createEvent) {
 
             EventData eventData = new EventData();
+            uid = (String) getIntent().getExtras().get(MainActivity.UID_KEY);
 
-            if (eventData.isValid() == false) {
+            if ((getEventDate.getText().toString().matches("")) ||
+                    (getEventEndDate.getText().toString().matches(""))
+                || (getEventTime.getText().toString().matches("")) ||
+                    (getEventEndTime.getText().toString().matches(""))
+                || (defaultContribution.getText().toString().matches(""))
+                    || (venmoName.getText().toString().matches(""))
+                || (eventName.getText().toString().matches("")) ||
+                    (hashTag.getText().toString().matches("")) ||
+                    (moneyToRaise.getText().toString().matches(""))
+                    || (description.getText().toString().matches(""))
+                || (location.getText().toString().matches(""))
+                    || (uid.matches(""))) {
                 Toast.makeText(getApplicationContext(), "All fields must be initialized with valid inputs",
                         Toast.LENGTH_LONG).show();
             } else {
                 eventData.setDefaultContribution(Integer.valueOf(defaultContribution.getText()
                         .toString()));
+                eventData.setEventKey(uid);
                 eventData.setEventStartDate(getEventDate.getText().toString());
                 eventData.setEventEndDate(getEventEndDate.getText().toString());
                 eventData.setEventStartTime(getEventTime.getText().toString());
@@ -175,9 +187,14 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
                 eventData.setDescription(description.getText().toString());
                 eventData.setLocation(location.getText().toString());
 
-                this.setResult(RESULT_OK, eventData.packageIntoIntent());
+                if (eventData.isValid() == false) {
+                    Toast.makeText(getApplicationContext(), "Invalid inputs",
+                            Toast.LENGTH_LONG).show();
+                } else {
 
-                finish();
+                    this.setResult(RESULT_OK, eventData.packageIntoIntent());
+                    finish();
+                }
             }
         }
 
