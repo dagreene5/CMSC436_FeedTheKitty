@@ -32,14 +32,14 @@ public class EventData {
     private String eventStartDate;
     private String eventEndDate;
     private Long stackId;
-    private Integer funds; //how much has been raised so far
+    private String funds; //how much has been raised so far
     private Integer defaultContribution;
     private String venmoName;
     private String description;
     private ArrayList<CharSequence> peopleAttending;
 
     public EventData() {
-        funds = 0;
+        funds = "0";
         peopleAttending = new ArrayList<CharSequence>();
         // other initialization here
     }
@@ -145,11 +145,11 @@ public class EventData {
         return hashtag;
     }
 
-    public void setFunds(Integer funds) {
+    public void setFunds(String funds) {
         this.funds = funds;
     }
 
-    public Integer getFunds() {
+    public String getFunds() {
         return funds;
     }
 
@@ -226,7 +226,7 @@ public class EventData {
         eventData.setEventStartTime(extras.getString("eventStartTime"));
         eventData.setLocation(extras.getString("location"));
         eventData.setAmountNeeded(extras.getString("amountNeeded"));
-        eventData.setFunds(extras.getInt("funds"));
+        eventData.setFunds(extras.getString("funds"));
         eventData.setPeopleAttending(extras.getCharSequenceArrayList("peopleAttending"));
         eventData.setVenmoName(extras.getString("venmoName"));
         eventData.setDefaultContribution(extras.getInt("defaultContribution"));

@@ -190,6 +190,12 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
                             String amount = response.getAmount();
                             Toast.makeText(getApplicationContext(), "You successfully paid " + amount + "to "
                                     + eventName, Toast.LENGTH_LONG).show();
+                            Double prevAmount = Double.valueOf(eventData.getFunds());
+                            Double added = Double.valueOf(amount);
+                            String newTotal = String.valueOf(prevAmount + added);
+                            eventData.setFunds(newTotal);
+                            firebaseUtils.updateEventData(eventData);
+                            funds.setText(newTotal);
                         }
                     }
                     else {
