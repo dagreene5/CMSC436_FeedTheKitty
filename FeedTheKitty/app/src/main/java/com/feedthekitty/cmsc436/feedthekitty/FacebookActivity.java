@@ -13,12 +13,17 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -98,20 +103,33 @@ public class FacebookActivity extends Activity {
     }
 
     public void returnUserData(AccessToken accessToken) {
-        UserData userData = new UserData();
+        final UserData userData = new UserData();
         userData.setUserId(accessToken.getUserId());
 
-        //TODO get fullName = first + " " + last
-        Profile profile = Profile.getCurrentProfile();
-        String firstName = profile.getFirstName();
-        String lastName = profile.getLastName();
-        System.out.println(firstName + " " + lastName); //tested working
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+                            try{
+                                userData.setFullName(object.getString("first_name") + " " + object.getString("last_name"));
 
-        userData.setFullName(firstName + " " + lastName);
-        Intent intent = userData.packageIntoIntent();
-        setResult(RESULT_OK, intent);
+                                Intent intent = userData.packageIntoIntent();
+                                setResult(RESULT_OK, intent);
 
-        finish();
+                                finish();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "first_name,last_name");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private boolean isLoggedIn() {
