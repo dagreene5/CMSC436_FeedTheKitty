@@ -154,8 +154,9 @@ public class FirebaseUtils {
     }
 
     public void createEventData(EventData event) {
-        eventList.push().setValue(event.packageIntoMap());
-        event.setEventKey(eventList.push().getKey());
+        Firebase newPush = eventList.push();
+        newPush.setValue(event.packageIntoMap());
+        event.setEventKey(newPush.getKey());
         eventDataMap.put(event.getEventKey(), event); //shouldn't need this...
     }
 
@@ -173,8 +174,10 @@ public class FirebaseUtils {
         userData.setAttendingEvent(eventId);
         eventData.addPersonAttending(personId);
 
-        updateEventData(eventData);
-        storeUserData(userData);
+        eventList.child(eventData.getEventKey()).child("peopleAttending")
+                .setValue(eventData.getPeopleAttending());
+        userList.child(userData.getUserId()).child("eventsAttending")
+                .setValue(userData.getEventsAttending());
     }
 
     public void removeUserFromEvent(String personId, String eventId) {
@@ -183,8 +186,10 @@ public class FirebaseUtils {
         userData.removeEventFromAttending(eventId);
         eventData.removePersonAttending(personId);
 
-        updateEventData(eventData);
-        storeUserData(userData);
+        eventList.child(eventData.getEventKey()).child("peopleAttending")
+                .setValue(eventData.getPeopleAttending());
+        userList.child(userData.getUserId()).child("eventsAttending")
+                .setValue(userData.getEventsAttending());
     }
 
     public void addFundsToEvent(String eventId, final Integer amount) {
