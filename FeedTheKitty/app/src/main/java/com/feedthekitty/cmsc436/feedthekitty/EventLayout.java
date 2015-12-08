@@ -187,7 +187,7 @@ public class EventLayout extends ListActivity implements View.OnClickListener {
                             String note = response.getNote();
                             String amount = response.getAmount();
                             Toast.makeText(getApplicationContext(), "You successfully paid " + amount + "to "
-                                    + eventName, Toast.LENGTH_LONG).show();
+                                    + eventData.getTitle(), Toast.LENGTH_LONG).show();
                             Double prevAmount = Double.valueOf(eventData.getFunds());
                             Double added = Double.valueOf(amount);
                             String newTotal = String.valueOf(prevAmount + added);
